@@ -1,0 +1,144 @@
+/* Camera projection uses separate photographic planes, never a rasterized
+   full-screen composite. This preserves native texture detail during approach. */
+.depth-journey {
+  --approach: 0; --portal: 0; --inside: 0; --detail: 0;
+  --background-scale: 1; --ground-scale: 1; --canopy-x: 0px;
+  --portal-top: 50%; --portal-side: 50%; --portal-bottom: 50%;
+  --exterior-presence: 1; --interior-presence: 0; --doorway-scale: 1;
+}
+.depth-journey .exterior-world { filter: none; opacity: var(--exterior-presence); }
+.depth-journey .lobby-world {
+  filter: none; opacity: var(--interior-presence);
+  clip-path: inset(var(--portal-top) var(--portal-side) var(--portal-bottom));
+  will-change: clip-path;
+}
+.depth-journey .threshold { display: none; }
+.depth-journey .exterior-color { background: linear-gradient(#07131d35,transparent 24%,transparent 73%,#02080c4a); }
+.depth-journey .lobby-color { background: linear-gradient(#05080d3a,transparent 20%,transparent 82%,#080c1026); }
+.depth-scene { position: absolute; inset: 0; --wind: 0; --wind-back: 0; --cloud-x: 0px; --cloud-light: .04; }
+.depth-plane,.depth-photo,.interior-rear { position: absolute; inset: 0; width: 100%; height: 100%; }
+.depth-photo { object-fit: cover; object-position: 50% 50%; user-select: none; pointer-events: none; }
+.depth-plane { transform-origin: 50% 50%; will-change: transform; }
+.photo-space,.sky-window,.museum-silhouette,.ground-photo {
+  position: absolute; top: 50%; left: 50%;
+  width: max(100%, calc(100svh * 1.77683));
+  height: max(100%, calc(100vw / 1.77683));
+  transform: translate(-50%,-50%);
+}
+.photo-space { pointer-events: none; }
+.landscape-plane {
+  transform: translate3d(calc(var(--look-x) * .3),calc(var(--look-y) * .3 - var(--approach) * 12px),0) scale(var(--background-scale));
+}
+.sky-window { overflow: hidden; mask-image: linear-gradient(black 0%,black 8%,transparent 16%); }
+.moving-sky { transform: translateX(var(--cloud-x)) scale(1.06); }
+.museum-plane {
+  transform: translate3d(var(--look-x),calc(var(--look-y) + var(--exterior-y)),0) scale(var(--exterior-scale));
+}
+.museum-silhouette {
+  clip-path: polygon(14.5% 31.7%,25% 33.1%,38% 34.1%,50% 34.2%,61% 33.5%,73% 31.8%,88.8% 28.1%,88.8% 31.3%,84% 36.4%,78.3% 40.2%,78.5% 55%,100% 58%,100% 100%,0% 100%,0% 58%,22.2% 54.8%,22.2% 39.8%,14.5% 35.1%);
+}
+.museum-silhouette .depth-photo,.ground-photo .depth-photo { object-fit: fill; }
+.ground-plane {
+  transform-origin: 50% 57%;
+  transform: translate3d(var(--look-x),calc(var(--look-y) + var(--exterior-y)),0) scale(var(--ground-scale));
+  pointer-events: none;
+}
+.ground-photo { mask-image: linear-gradient(transparent 55%,#000 58.5%); }
+.detail-plane {
+  transform: translate3d(var(--look-x),calc(var(--look-y) + var(--exterior-y)),0) scale(calc(var(--exterior-scale) / 1.8 * var(--doorway-scale)));
+  opacity: var(--detail); pointer-events: none;
+}
+.canopy-plane { width: 43vw; height: auto; aspect-ratio: 1.5; inset: auto; top: -7%; }
+.canopy-plane--left { left: -5%; transform: translate3d(calc(var(--look-x) * 5 - var(--canopy-x)),calc(var(--look-y) * 3 - var(--approach) * 40vh),100px) scale(calc(1 + var(--approach) * 1.5)); }
+.canopy-plane--right { right: -14%; top: -9%; width: 40vw; transform: translate3d(calc(var(--look-x) * 4 + var(--canopy-x)),calc(var(--look-y) * 2 - var(--approach) * 30vh),80px) scaleX(-1) scale(calc(.82 + var(--approach))); }
+.canopy-sway { display: block; width: 100%; height: auto; transform-origin: 3% 4%; transform: perspective(900px) rotateZ(calc(var(--wind) * 2.7deg)) rotateY(calc(var(--wind-back) * 5deg)); }
+.canopy-plane--right .canopy-sway { transform: perspective(900px) rotateZ(calc(var(--wind-back) * -3.5deg)) rotateX(calc(var(--wind) * 4deg)); }
+.grass-patch { position: absolute; inset: 0; }
+.grass-patch img { width: 100%; height: 100%; object-fit: fill; transform: translateX(calc(var(--wind) * 5px)) skewX(calc(var(--wind-back) * .22deg)); }
+.grass-patch--left { mask-image: radial-gradient(ellipse 12% 9% at 20% 66%,black 60%,transparent 100%); }
+.grass-patch--right { mask-image: radial-gradient(ellipse 12% 10% at 78% 71%,black 60%,transparent 100%); }
+.grass-patch--right img { transform: translateX(calc(var(--wind-back) * -6px)); }
+.grass-patch--near { mask-image: radial-gradient(ellipse 16% 13% at 10% 85%,black 65%,transparent 100%); }
+.grass-patch--near img { transform: translateX(calc(var(--wind) * 9px)) skewX(calc(var(--wind-back) * .35deg)); }
+
+/* Emission, blackout and reflected spill share one intensity per practical.
+   The dark core removes baked-in photographed light during an off phase. */
+.practical-lamp { position: absolute; width: var(--bulb-size); height: .95%; --power: 1; }
+.practical-lamp i { display: block; position: absolute; pointer-events: none; }
+.lamp-blackout { inset: -16% -5%; transform: translate(-50%,-50%); background: #151d1c; border-radius: 20%; opacity: calc(1 - var(--power)); box-shadow: 0 0 3px #131a18; }
+.lamp-bloom { width: 1700%; height: 1200%; top: -600%; left: -850%; background: radial-gradient(ellipse,#ffecbddd, #eab66a55 13%,#e4ac4320 30%,transparent 66%); mix-blend-mode: screen; opacity: calc(var(--power) * .82); }
+.lamp-spill { width: 1600%; height: 1800%; left: -800%; top: 150%; background: radial-gradient(ellipse at 50% 10%,#e7ae404d,transparent 68%); transform: skewX(-13deg); mix-blend-mode: screen; opacity: var(--power); }
+.museum-neon {
+  position: absolute; left: 50.15%; top: 41.7%; width: 10.6%; height: 2.3%;
+  transform: translate(-50%,-50%); --power: 1;
+  display: grid; place-items: center; color: #ffebc7;
+}
+.museum-neon span { font: 500 clamp(7px,.57vw,12px)/1 var(--museum-sans); letter-spacing: .11em; white-space: nowrap; opacity: calc(.055 + var(--power) * .945); text-shadow: 0 0 2px #fff1c9,0 0 9px #ffc66a,0 0 22px #e9a440; }
+.museum-neon i { position: absolute; inset: 0; background: radial-gradient(ellipse,#ffc65b2e,transparent 75%); opacity: var(--power); }
+.museum-neon--detail { top: 32.7%; width: 18%; height: 4%; }
+.museum-neon--detail span { font-size: clamp(10px,1vw,18px); }
+.surface-shadow { position: absolute; inset: 0; background: linear-gradient(117deg,transparent 20%,#040d18 52%,transparent 85%); opacity: var(--cloud-light); mix-blend-mode: multiply; }
+.practicals-wide { opacity: calc(1 - var(--detail)); }
+.interior-rear { transform: translate3d(calc(var(--look-x) * .4),calc(var(--look-y) * .4 + var(--lobby-drift)),0) scale(var(--lobby-scale)); }
+.interior-caustic { position: absolute; inset: 61% 0 0; background: radial-gradient(ellipse at 65% 0,#e2b36922,transparent 57%); mix-blend-mode: screen; opacity: calc(.65 + var(--wind) * .3); transform: translateX(calc(var(--wind-back) * 20px)); }
+
+/* Only cloud texture moves; these feathered windows exclude the mountain,
+   trees, mullions and roof. All coordinates use the original photo space. */
+.window-clouds { position: absolute; inset: 0; pointer-events: none; }
+.window-clouds--rear { mask-image: radial-gradient(ellipse 4.1% 4.2% at 50.3% 47.5%,#000 48%,transparent 100%); }
+.window-clouds--side { mask-image: radial-gradient(ellipse 3.7% 7% at 95.8% 13.8%,#000 45%,transparent 100%); }
+.window-clouds .depth-photo { object-fit: fill; transform: translate3d(var(--window-cloud-x,0px),var(--window-cloud-y,0px),0); will-change: transform; }
+.window-clouds--side .depth-photo { transform: translate3d(calc(var(--window-cloud-x,0px) * -.7),calc(var(--window-cloud-y,0px) * .5),0); }
+.interior-depth-scene .lamp-blackout { display: block; background: #88643b; box-shadow: 0 0 2px #a17f46; opacity: calc((1 - var(--power)) * 1.25); }
+.interior-depth-scene .lamp-bloom { opacity: calc((var(--power) - .4) * 1.65); }
+.exhibit-light { position: absolute; --power: 1; pointer-events: none; mix-blend-mode: screen; }
+.exhibit-light--left { left: 5%; top: 62%; width: 21%; height: 13%; }
+.exhibit-light--right { left: 78%; top: 61%; width: 21%; height: 15%; }
+.exhibit-light--cabinet { left: 65.6%; top: 54%; width: 4%; height: 13%; }
+.exhibit-light i { position: absolute; display: block; }
+.exhibit-light__glass { inset: 0; background: linear-gradient(112deg,transparent 24%,#fff0c536 31%,transparent 37%),radial-gradient(ellipse at 50% 70%,#ffe2a78a,transparent 65%); mask-image: radial-gradient(ellipse,black 35%,transparent 75%); opacity: calc((var(--power) - .35) * 1.5); transform: translateX(var(--glass-shift,0%)); }
+.exhibit-light--right .exhibit-light__glass { transform: translateX(calc(var(--glass-shift,0%) * -1)); }
+.exhibit-light__reflection { left: -10%; top: 135%; width: 130%; height: 105%; background: radial-gradient(ellipse,#e8be7970,transparent 65%); opacity: var(--power); transform: translateX(calc(var(--reflection-shift,0px) * .35)) skewX(-14deg); }
+.atrium-light-shafts { position: absolute; inset: 26% 15% 25%; background: linear-gradient(104deg,transparent 21%,#f6deb218 24%,transparent 30%,transparent 66%,#f6deb21b 69%,transparent 77%); opacity: calc(.7 + var(--wind-back) * .2); transform: translateX(calc(var(--reflection-shift,0px) * .25)); pointer-events: none; }
+.interior-depth-scene .interior-caustic { background: radial-gradient(ellipse at 65% 0,#e2b36945,transparent 57%); transform: translateX(var(--reflection-shift,0px)); }
+
+.depth-journey .film-grain { opacity: .008; }
+.depth-journey .frame-vignette { box-shadow: inset 0 0 5rem #0206092b; }
+.depth-journey .welcome-signage::before { backdrop-filter: none; background: linear-gradient(90deg,transparent,#0a13195e 28%,#0a13197d 50%,#0a13195e 72%,transparent); }
+.depth-journey .welcome-signage__reflection { display: none; }
+.depth-journey .museum-header { background: linear-gradient(#030a103d,transparent); }
+.depth-journey .edition-label { font-size: .75rem; }
+.depth-journey .sound-control { font-size: .75rem; }
+.motion-control { min-height: 44px; padding: .6rem .4rem; border: 0; border-bottom: 1px solid #e4d3b94d; background: none; color: #f0e8d8; font: .75rem var(--museum-sans); cursor: pointer; white-space: nowrap; }
+.motion-control:disabled { opacity: .65; cursor: default; }
+.motion-paused .scroll-invitation b { animation-play-state: paused; }
+.depth-atmosphere { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: -3; }
+.flying-foliage { position: absolute; inset: 0; pointer-events: none; z-index: -2; perspective: 1100px; overflow: hidden; }
+.flying-leaf { position: absolute; width: 30px; height: auto; opacity: 0; transform-style: preserve-3d; will-change: transform,opacity; filter: brightness(.74); }
+.flying-petal { filter: brightness(.97); }
+@media (max-width: 1100px) {
+  .depth-journey .edition-label { display: none; }
+  .depth-journey .museum-header__side { gap: 1.1rem; }
+}
+@media (max-width: 760px) {
+  .depth-journey .museum-viewport { min-height: 0; }
+  .depth-journey .museum-header { padding: 1.25rem 1rem; }
+  .depth-journey .museum-header__side { gap: .5rem; }
+  .depth-journey .sound-control { font-size: .7rem; letter-spacing: 0; }
+  .motion-control { font-size: .7rem; padding-inline: .25rem; }
+  .canopy-plane--left { width: 80vw; top: 4%; left: -25%; }
+  .canopy-plane--right { width: 74vw; top: -1%; right: -34%; }
+  .museum-neon span { font-size: 9px; }
+  .museum-neon--detail span { font-size: 15px; }
+  .depth-journey .welcome-signage p { font-size: 1rem; }
+  .depth-journey .welcome-signage h1 { font-size: clamp(2.25rem,9.6vw,4.4rem); }
+  .flying-leaf[data-mobile-hidden] { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .window-clouds,.atrium-light-shafts { display: none; }
+  .depth-atmosphere,.flying-foliage,.canopy-plane,.grass-motion,.moving-sky { display: none; }
+  .depth-journey .museum-plane,.depth-journey .ground-plane,.depth-journey .landscape-plane,
+  .depth-journey .interior-rear { transform: none; }
+  .depth-journey .detail-plane { display: none; }
+  .depth-journey .practicals-wide { opacity: 1; }
+}

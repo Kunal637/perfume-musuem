@@ -1,0 +1,59 @@
+.sultans-gallery { position:absolute; inset:0; z-index:6; isolation:isolate; overflow:hidden; background:#271b21; color:#fff2d6; opacity:0; visibility:hidden; transform:translate3d(24vw,0,-650px) rotateY(-19deg) scale(1.13); transform-origin:70% 55%; transition:transform .95s cubic-bezier(.2,.75,.2,1),opacity .65s,visibility .95s; --silk:0deg; --silk-light:.5; --nobleman:0; --nobleman-x:45px; }
+.sultans-gallery.is-active { opacity:1; visibility:visible; transform:translate3d(0,0,0) rotateY(0) scale(1); }
+.showing-sultans .gardens-gallery,.showing-sultans .marines-gallery { transform:translate3d(-20vw,0,300px) rotateY(16deg); }
+.sultan-environment,.sultan-photograph,.sultan-water,.sultan-silk,.sultan-silk img,.sultan-reflections,.sultan-color,.sultan-atmosphere { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+.sultan-environment { transform:translate3d(calc(var(--look-x) * .5),calc(var(--look-y) * .5),0) scale(1.015); }
+.sultan-photograph,.sultan-silk img { object-fit:cover; }
+.sultan-silk { mask-image:linear-gradient(90deg,black,black 6%,transparent 19%); transform-origin:0 0; transform:rotate(var(--silk)) scale(1.003); }
+.sultan-reflections { background:radial-gradient(ellipse 17% 9% at 71% 85%,#f2a5384d,transparent),radial-gradient(ellipse 40% 20% at 5% 97%,#ffd38736,transparent); mix-blend-mode:screen; opacity:var(--silk-light); }
+.sultan-color { background:linear-gradient(90deg,#160f2060,transparent 62%),linear-gradient(0deg,#160e1db3,transparent 48%,transparent 78%,#100b2129); }
+.sultan-lantern { position:absolute; z-index:5; top:-6%; width:clamp(90px,10vw,160px); transform-origin:50% 0; transform:rotate(var(--swing,0deg)); --lamp:.85; }
+.sultan-lantern img { display:block; width:100%; height:auto; filter:brightness(var(--lamp)); }
+.sultan-lantern--0 { left:20%; }
+.sultan-lantern--1 { right:27%; top:-12%; width:clamp(100px,11vw,175px); }
+.sultan-lantern--2 { right:10%; top:-3%; width:clamp(110px,12vw,185px); }
+.sultan-lantern__emission { position:absolute; inset:36% -25% -10%; background:radial-gradient(ellipse,#ffc25a42,transparent 65%); mix-blend-mode:screen; opacity:var(--lamp); }
+.sultan-nobleman { position:absolute; z-index:3; right:16%; bottom:6%; width:clamp(240px,26vw,430px); opacity:var(--nobleman); transform:translate3d(var(--nobleman-x),0,45px); }
+.sultan-nobleman img { display:block; width:100%; height:auto; filter:drop-shadow(10px 12px 12px #150b1966); mask-image:linear-gradient(black 93%,transparent 100%); }
+.sultan-atmosphere { z-index:7; }
+.sultans-copy { position:absolute; z-index:8; left:8vw; top:36%; max-width:63%; text-shadow:0 2px 25px #150d2860; }
+.sultans-eyebrow { margin:0 0 1.6rem; display:flex; align-items:center; gap:1rem; font-size:.875rem; letter-spacing:.14em; text-transform:uppercase; }
+.sultans-eyebrow span { width:2.8rem; height:1px; background:#ffe8bc99; }
+.sultans-copy h2 { margin:0; font:400 clamp(6rem,11.8vw,12rem)/.88 var(--museum-display); letter-spacing:-.04em; }
+.sultans-copy h2 span { display:block; font-size:.36em; margin-bottom:.22em; font-style:italic; letter-spacing:-.015em; }
+.sultans-copy > p:last-child { margin:1.7rem 0 0; font-size:clamp(1rem,1.2vw,1.2rem); line-height:1.65; }
+.sultan-footer { position:absolute; z-index:8; left:4vw; right:4vw; bottom:2.7rem; display:flex; justify-content:space-between; gap:1rem; font-size:.8rem; letter-spacing:.06em; }
+.gallery-menu-toggle { display:none; }
+/* A stage clips transformed scenery without becoming an inner scroll area.
+   This prevents focused controls from shifting the whole scene out of view. */
+.gallery-journey .museum-viewport { overflow:clip; }
+.showing-gardens .enter-marines { bottom:5rem; }
+@media(max-width:1100px){.sultans-copy{left:6vw}.sultan-nobleman{right:8%;width:32vw}}
+@media(max-width:760px){
+  .gallery-menu-toggle { display:flex; align-items:center; gap:.65rem; position:absolute; z-index:17; bottom:1rem; left:50%; transform:translateX(-50%); width:max-content; max-width:calc(100% - 2rem); min-height:48px; padding:.7rem 1.1rem; border:1px solid #fff5df66; border-radius:2rem; background:#122e2ae8; color:#fff5df; box-shadow:0 4px 25px #031a2233; font:400 .875rem var(--museum-sans); cursor:pointer; }
+  .gallery-menu-toggle i { width:1px; height:1rem; background:#f9eed74d; }
+  .gallery-menu-toggle:focus-visible { outline:2px solid #fff5df; outline-offset:3px; }
+  .gallery-rail { display:none; bottom:4.8rem; width:calc(100% - 2rem); max-width:360px; padding:.6rem; border-radius:1.2rem; background:#102e2aee; gap:.3rem; }
+  .gallery-rail.is-open { display:grid; grid-template-columns:1fr 1fr; }
+  .gallery-rail button { font-size:.875rem; min-height:46px; padding:.55rem .7rem; border-radius:.6rem; }
+  .gallery-rail__number { display:inline; }
+  .sultan-photograph,.sultan-silk img { object-position:58% center; }
+  .sultan-silk { display:none; }
+  .sultan-color { background:linear-gradient(0deg,#160e1db8,transparent 85%),linear-gradient(90deg,#160f204d,transparent); }
+  .sultans-copy { left:7vw; top:34%; max-width:87%; }
+  .sultans-eyebrow { font-size:.75rem; gap:.7rem; letter-spacing:.1em; margin-bottom:1.5rem; }
+  .sultans-copy h2 { font-size:clamp(4.5rem,19vw,8rem); }
+  .sultans-copy > p:last-child { font-size:1rem; margin-top:1.4rem; }
+  .sultan-lantern--0 { left:6%; top:-5%; width:90px; }
+  .sultan-lantern--1 { display:none; }
+  .sultan-lantern--2 { right:7%; top:-2%; width:110px; }
+  .sultan-nobleman { right:-3%; bottom:12%; width:42vw; }
+  .sultan-footer { bottom:5.5rem; left:7vw; font-size:.75rem; }
+  .sultan-footer > span:last-child { display:none; }
+  .showing-gardens .enter-marines { bottom:7.8rem; }
+}
+@media(prefers-reduced-motion:reduce){
+  .sultans-gallery { transition:opacity .15s; transform:none!important; }
+  .sultan-environment,.sultan-lantern { transform:none; }
+  .sultan-nobleman,.sultan-atmosphere,.sultan-silk,.sultan-water { display:none; }
+}

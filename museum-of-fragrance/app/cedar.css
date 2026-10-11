@@ -1,0 +1,34 @@
+.cedar-gallery{position:absolute;inset:0;z-index:7;isolation:isolate;overflow:hidden;background:#775230;color:#fff6e3;opacity:0;visibility:hidden;transform:translate3d(24vw,0,-650px) rotateY(-19deg) scale(1.1);transform-origin:70% 55%;transition:transform .95s cubic-bezier(.2,.75,.2,1),opacity .65s,visibility .95s;--cedar-daylight:.12;--cedar-cloud:0px}
+.cedar-gallery.is-active{opacity:1;visibility:visible;transform:translate3d(0,0,0) rotateY(0) scale(1)}
+.showing-cedar .sultans-gallery,.showing-cedar .gardens-gallery,.showing-cedar .marines-gallery{transform:translate3d(-20vw,0,300px) rotateY(16deg)}
+.cedar-environment,.cedar-photograph,.cedar-water,.cedar-daylight,.cedar-shade,.cedar-atmosphere,.cedar-clouds,.cedar-clouds img{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.cedar-environment{transform:translate3d(calc(var(--look-x) * .5),calc(var(--look-y) * .5),0) scale(1.015)}
+.cedar-photograph,.cedar-clouds img{object-fit:cover}
+.cedar-clouds{mask-image:radial-gradient(ellipse 6% 9% at 59% 24%,black 20%,transparent);transform:translateX(var(--cedar-cloud))}
+.cedar-daylight{background:linear-gradient(116deg,transparent 24%,#fff3ba 35%,transparent 44%),radial-gradient(ellipse at 60% 77%,#7fffff,transparent 35%);mix-blend-mode:soft-light;opacity:var(--cedar-daylight)}
+.cedar-shade{background:linear-gradient(90deg,#24150942,transparent 41%),linear-gradient(0deg,#0d221d69,transparent 23%,transparent 84%,#18232039)}
+.cedar-copy{position:absolute;z-index:4;left:7vw;top:21%;max-width:34%;text-shadow:0 2px 24px #2c1b1655}
+.cedar-eyebrow{margin:0 0 1.6rem;display:flex;align-items:center;gap:.9rem;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;white-space:nowrap}
+.cedar-eyebrow span{width:2rem;height:1px;background:#fff3ce88}
+.cedar-copy h2{margin:0;font:400 clamp(4.8rem,7.4vw,9rem)/.85 var(--museum-display);letter-spacing:-.035em}
+.cedar-copy h2 span{display:block;font-size:.36em;letter-spacing:-.01em;font-style:italic;margin-bottom:.28em}
+.cedar-copy>p:not(.cedar-eyebrow){margin:1.5rem 0 0;font-size:clamp(.95rem,1.15vw,1.15rem);line-height:1.6}
+.cedar-copy>p.cedar-signature{font-size:.75rem;letter-spacing:.025em;margin-top:.7rem;opacity:.85}
+.cedar-footer{position:absolute;z-index:4;left:4vw;right:4vw;bottom:2.7rem;display:flex;justify-content:space-between;gap:1rem;font-size:.8rem;letter-spacing:.06em}
+.showing-sultans .enter-marines{bottom:5rem}
+@media(max-width:1100px) and (min-width:761px){.cedar-copy{left:6vw;max-width:43%;top:25%}.cedar-copy h2{font-size:9vw}.cedar-shade{background:linear-gradient(90deg,#231b1670,transparent 65%),linear-gradient(0deg,#13282077,transparent 25%)}.cedar-eyebrow{font-size:.65rem;gap:.6rem}}
+@media(max-width:760px){
+ .cedar-photograph,.cedar-clouds img{object-position:59% center}
+ .cedar-clouds{display:none}
+ .cedar-shade{background:linear-gradient(90deg,#17291e7d,transparent 100%),linear-gradient(0deg,#132c258a,transparent 55%,transparent 85%,#14211944)}
+ .cedar-copy{left:7vw;top:26%;max-width:87%}
+ .cedar-eyebrow{font-size:.7rem;letter-spacing:.1em;margin-bottom:1.5rem;gap:.7rem}
+ .cedar-copy h2{font-size:clamp(4.8rem,21vw,7rem)}
+ .cedar-copy>p:not(.cedar-eyebrow){font-size:1rem;margin-top:1.5rem}
+ .cedar-copy>p.cedar-signature{font-size:.72rem;margin-top:.6rem}
+ .cedar-footer{bottom:5.5rem;left:7vw;font-size:.75rem}
+ .cedar-footer>span:last-child{display:none}
+ .showing-sultans .enter-marines{bottom:7.8rem}
+}
+@media(max-height:650px) and (min-width:761px){.cedar-copy{top:19%}.cedar-copy h2{font-size:12vh}.cedar-eyebrow{margin-bottom:1rem}.cedar-copy>p:not(.cedar-eyebrow){margin-top:.8rem}.cedar-copy>p.cedar-signature{margin-top:.3rem}}
+@media(prefers-reduced-motion:reduce){.cedar-gallery{transition:opacity .15s;transform:none!important}.cedar-environment{transform:none}.cedar-atmosphere,.cedar-water,.cedar-clouds,.cedar-daylight{display:none}}

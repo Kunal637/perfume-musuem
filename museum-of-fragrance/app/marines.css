@@ -1,0 +1,69 @@
+.museum-journey.gallery-journey { height: 60190svh; }
+.gallery-journey .museum-viewport { perspective: 1300px; }
+.gallery-journey .lobby-world { transition: transform .95s cubic-bezier(.2,.75,.2,1),opacity .8s; transform-origin: 50% 55%; }
+.gallery-journey.showing-gallery .lobby-world { transform: translate3d(-16vw,0,300px) rotateY(16deg); opacity: 0; }
+.gallery-journey .welcome-signage { transition: opacity .35s,filter .35s; }
+.gallery-journey.showing-gallery .welcome-signage,
+.gallery-journey.showing-gallery .depth-atmosphere,
+.gallery-journey.showing-gallery .flying-foliage,
+.gallery-journey.showing-gallery .journey-progress { opacity: 0; pointer-events: none; }
+.gallery-journey.showing-gallery .frame-vignette { box-shadow: inset 0 0 3rem #001c3030; }
+.marines-gallery { position: absolute; inset: 0; z-index: 4; overflow: hidden; isolation: isolate; background: #005184; opacity: 0; visibility: hidden;
+  transform: translate3d(24vw,0,-650px) rotateY(-19deg) scale(1.13); transform-origin: 70% 55%;
+  transition: transform .95s cubic-bezier(.2,.75,.2,1),opacity .65s,visibility .95s;
+  --swell-x: 0px; --swell-y: 0px; --swell-turn: 0deg; --captain: 0; --captain-bob: 0px; }
+.marines-gallery.is-active { opacity: 1; visibility: visible; transform: translate3d(0,0,0) rotateY(0) scale(1); }
+.marine-environment,.marine-photograph,.marine-water,.marine-color,.marine-spray { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.marine-environment { transform: translate3d(calc(var(--look-x) * .45),calc(var(--look-y) * .45),0) scale(1.014); }
+.marine-photograph { object-fit: cover; }
+.marine-water { opacity: 0; }
+.marine-water[data-state="ready"] { opacity: 1; }
+.marine-color { background: linear-gradient(90deg,#002d5140,transparent 60%),linear-gradient(#001e3435,transparent 23%,transparent 78%,#002a4966); }
+.marine-wave { position: absolute; pointer-events: none; width: 110%; height: auto; max-height: 48vh; object-fit: fill; left: -5%; bottom: -15%; mix-blend-mode: screen; mask-image: linear-gradient(transparent,black 12%,black 84%,transparent); }
+.marine-wave--far { z-index: 2; opacity: .3; bottom: -10%; transform: translate3d(calc(var(--swell-x) * -.65),calc(var(--swell-y) * -.6),0) scaleX(-1) rotate(calc(var(--swell-turn) * -1)); }
+.marine-wave--near { z-index: 4; opacity: .86; transform: translate3d(var(--swell-x),var(--swell-y),70px) rotate(var(--swell-turn)); }
+.marine-spray { z-index: 5; }
+.marine-captain { position: absolute; z-index: 3; right: 9%; bottom: 9%; width: clamp(230px,29vw,470px); opacity: var(--captain); transform: translate3d(calc((1 - var(--captain)) * 10vw),var(--captain-bob),0) rotate(calc((1 - var(--captain)) * 5deg)); pointer-events: none; }
+.marine-captain img { display: block; width: 100%; height: auto; mask-image: linear-gradient(black 75%,transparent 99%); }
+.marines-copy { position: absolute; z-index: 6; left: clamp(2rem,9vw,10rem); top: 29%; max-width: 56%; color: #fffdf2; text-shadow: 0 2px 24px #00395b30; }
+.marines-eyebrow { display: flex; align-items: center; gap: 1rem; margin: 0 0 1.8rem; font-size: .75rem; text-transform: uppercase; letter-spacing: .18em; }
+.marines-eyebrow span { height: 1px; width: 2.8rem; background: #fff6dc99; }
+.marines-copy h2 { margin: 0; font-family: var(--museum-display); font-size: clamp(5.5rem,11.6vw,12rem); font-weight: 400; line-height: .87; letter-spacing: -.05em; }
+.marines-copy h2 span { display: block; margin-bottom: .22em; font-size: .35em; font-style: italic; letter-spacing: -.015em; }
+.marines-description { margin: 2rem 0 0; font-size: clamp(1rem,1.2vw,1.2rem); line-height: 1.6; font-weight: 400; color: #fffef1; }
+.marine-footer { position: absolute; z-index: 6; left: 4vw; right: 4vw; bottom: 2.7rem; display: flex; justify-content: space-between; gap: 1rem; color: #effaff; font-size: .75rem; letter-spacing: .07em; }
+.gallery-rail { position: absolute; right: 1.4rem; top: 42%; z-index: 31; display: flex; flex-direction: column; gap: .3rem; padding: .5rem; border: 1px solid #f8f3e02e; border-radius: 1rem; background: #08273360; backdrop-filter: blur(14px); }
+.gallery-rail button { display: flex; align-items: center; gap: .65rem; min-height: 44px; border: 0; border-radius: .6rem; padding: .5rem .65rem; color: #f9f5e7b3; background: transparent; font: .8rem var(--museum-sans); cursor: pointer; text-align: left; transition: background .2s,color .2s; }
+.gallery-rail button:hover,.gallery-rail button[aria-current] { background: #fcf8e91f; color: #fffbed; }
+.gallery-rail__number { font-family: var(--museum-display); font-size: .75rem; opacity: .7; min-width: 1.2rem; }
+.gallery-rail button:focus-visible,.enter-marines:focus-visible { outline: 2px solid #fef5d6; outline-offset: 3px; }
+.enter-marines { position: absolute; z-index: 30; bottom: 5.8rem; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 1rem; min-height: 46px; padding: .8rem 1.2rem; border: 1px solid #fff2ce66; border-radius: 2rem; background: #06232b85; color: #fff5df; font: 1rem var(--museum-display); cursor: pointer; }
+.enter-marines > span:first-child { font: .65rem var(--museum-sans); text-transform: uppercase; letter-spacing: .12em; opacity: .75; }
+@media(max-width:1100px){.gallery-rail{right:.8rem}.gallery-rail button{padding:.45rem}.marines-copy{left:6vw;max-width:65%}.marine-captain{right:5%;width:33vw}}
+@media(max-width:760px){
+  .gallery-rail { top: auto; bottom: 1rem; left: 50%; right: auto; transform: translateX(-50%); flex-direction: row; width: max-content; max-width: calc(100% - 1rem); gap: .1rem; border-radius: 2rem; padding: .25rem; }
+  .gallery-rail button { font-size: .75rem; padding: .5rem .65rem; border-radius: 2rem; gap: .3rem; }
+  .gallery-rail__number { display: none; }
+  .gallery-journey .journey-progress,.gallery-journey .scroll-invitation { bottom: 5.7rem; }
+  .gallery-journey .arrival-caption { bottom: 6rem; }
+  .enter-marines { bottom: 6rem; white-space: nowrap; }
+  .marines-copy { left: 7vw; top: 24%; max-width: 88%; }
+  .marine-photograph { object-position: 72% center; }
+  .marines-eyebrow { font-size: .7rem; gap: .7rem; margin-bottom: 1.8rem; }
+  .marines-copy h2 { font-size: clamp(4.8rem,20vw,8rem); }
+  .marines-description { font-size: 1rem; max-width: 20rem; margin-top: 1.6rem; }
+  .marine-captain { right: -8%; bottom: 12%; width: 50vw; }
+  .marine-wave { width: 170%; left: -35%; bottom: -1%; max-height: 36vh; }
+  .marine-wave--far { display: none; }
+  .marine-footer { bottom: 5.5rem; left: 7vw; font-size: .7rem; }
+  .marine-footer > span:last-child { display: none; }
+}
+@media(prefers-reduced-motion:reduce){
+  .marines-gallery,.gallery-journey .lobby-world { transition: opacity .15s; transform: none!important; }
+  .marine-water,.marine-wave,.marine-spray,.marine-captain { display: none; }
+  .marine-environment { transform: none; }
+}
+
+/* Museum controls stay above every gallery environment. */
+.gallery-journey .museum-header{z-index:30}
+.gallery-journey .gallery-menu-toggle{z-index:32}

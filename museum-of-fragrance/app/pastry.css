@@ -1,0 +1,44 @@
+.pastry-gallery{position:absolute;inset:0;z-index:10;isolation:isolate;overflow:hidden;background:#f6eedb;color:#263f38;opacity:0;visibility:hidden;transform:translate3d(24vw,0,-650px) rotateY(-19deg) scale(1.1);transform-origin:70% 55%;transition:transform .95s cubic-bezier(.2,.75,.2,1),opacity .65s,visibility .95s;--pastry-light:.18;--sun-drift:0px;--rabbit-hop:0px;--rabbit-tilt:0deg;--rabbit-shadow:1}
+.pastry-gallery.is-active{opacity:1;visibility:visible;transform:translate3d(0,0,0) rotateY(0) scale(1)}
+.showing-pastry .souk-gallery,.showing-pastry .amber-gallery,.showing-pastry .cedar-gallery,.showing-pastry .sultans-gallery,.showing-pastry .gardens-gallery,.showing-pastry .marines-gallery{transform:translate3d(-20vw,0,300px) rotateY(16deg)}
+.pastry-environment,.pastry-photograph,.pastry-sunlight,.pastry-glass-light,.pastry-atmosphere{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.pastry-photograph{object-fit:cover}
+.pastry-sunlight{background:linear-gradient(110deg,transparent 32%,#fff7d1 49%,transparent 63%);opacity:var(--pastry-light);mix-blend-mode:soft-light;transform:translateX(var(--sun-drift))}
+.pastry-glass-light{background:linear-gradient(108deg,transparent 36%,#fffdf55c 39%,transparent 42%);clip-path:polygon(0 60%,100% 60%,100% 91%,0 91%);opacity:.25;transform:translateX(calc(var(--sun-drift) * -2))}
+.pastry-copy{position:absolute;z-index:3;left:9%;top:22%;max-width:73%;text-shadow:0 2px 20px #fffbea55}
+.pastry-eyebrow{display:flex;align-items:center;gap:.9rem;font-size:.875rem;letter-spacing:.13em;text-transform:uppercase;margin:0 0 1.5rem;white-space:nowrap}
+.pastry-eyebrow span{width:2rem;height:1px;background:#263f3870}
+.pastry-copy h2{margin:0;font:400 clamp(4rem,9.3vw,10rem)/.91 var(--museum-display);letter-spacing:-.045em}
+.pastry-copy h2 span{display:block;font-size:.35em;font-style:italic;letter-spacing:-.01em;margin-bottom:.3em}
+.pastry-copy>p:last-child{font-size:clamp(1rem,1.15vw,1.15rem);line-height:1.65;margin:1.7rem 0 0}
+.pastry-rabbit{position:absolute;z-index:4;left:var(--rabbit-x);top:var(--rabbit-y);width:var(--rabbit-size);min-width:44px;min-height:44px;padding:0;border:0;background:none;cursor:pointer;transform:translate(-50%,-100%);-webkit-tap-highlight-color:transparent}
+.pastry-rabbit::after{content:"";position:absolute;width:65%;height:9%;border-radius:50%;background:#514b3338;filter:blur(4px);bottom:-1%;left:18%;transform:scaleX(var(--rabbit-shadow));z-index:-1}
+.pastry-rabbit img{display:block;width:100%;transform:translateY(var(--rabbit-hop)) rotate(var(--rabbit-tilt));transform-origin:50% 90%}
+.pastry-rabbit:focus-visible{outline:2px solid #315448;outline-offset:6px;border-radius:1rem}
+.pastry-footer{position:absolute;z-index:3;left:4vw;right:4vw;bottom:2.7rem;display:flex;justify-content:space-between;gap:1rem;font-size:.8rem;letter-spacing:.04em;color:#263f38;text-shadow:0 1px 8px #fff6e2}
+.pastry-discovery-status{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.showing-pastry .museum-header{background:linear-gradient(#fffcf0d9,transparent);color:#263f38;text-shadow:none}
+.showing-pastry .edition-label,.showing-pastry .museum-mark__name i,.showing-pastry .motion-control{color:#263f38}
+.showing-pastry .motion-control{border-bottom-color:#263f3855}
+.showing-pastry .museum-mark__seal,.showing-pastry .museum-mark__seal::after{border-color:#263f3870}
+.showing-pastry .gallery-rail{background:#fffaf0e6;border-color:#31544840}
+.showing-pastry .gallery-rail button{color:#315448}
+.showing-pastry .gallery-rail button:hover,.showing-pastry .gallery-rail button[aria-current]{background:#315448;color:#fffbed}
+.showing-pastry .gallery-rail button:focus-visible{outline-color:#315448}
+.showing-souk .enter-marines{bottom:5rem}
+@media(max-width:1100px) and (min-width:761px){.pastry-copy{left:6%;top:23%;max-width:70%}.pastry-copy h2{font-size:9.7vw}.pastry-eyebrow{font-size:.75rem;letter-spacing:.07em}}
+@media(max-width:760px){
+ .pastry-photograph{object-position:65% center}
+ .pastry-copy{left:7vw;top:20%;max-width:87%}.pastry-copy h2{font-size:clamp(3.8rem,17vw,7rem);max-width:6em}
+ .pastry-eyebrow{font-size:.75rem;gap:.55rem;letter-spacing:.045em;margin-bottom:1.2rem}.pastry-eyebrow span{width:1.1rem}
+ .pastry-copy>p:last-child{font-size:1rem;line-height:1.5;max-width:19rem;margin-top:1.2rem}
+ .pastry-footer{left:7vw;bottom:5.5rem;font-size:.75rem}.pastry-footer>span:last-child{display:none}
+ .showing-souk .enter-marines{bottom:7.8rem}
+}
+@media(max-height:650px) and (min-width:761px){.pastry-copy{top:18%}.pastry-copy h2{font-size:15vh}.pastry-eyebrow{margin-bottom:.6rem}.pastry-copy>p:last-child{margin-top:.8rem}}
+@media(prefers-reduced-motion:reduce){.pastry-gallery{transition:opacity .15s;transform:none!important}.pastry-atmosphere,.pastry-sunlight,.pastry-glass-light{display:none}.pastry-rabbit img{transform:none}}
+/* An ivory exhibition label remains readable against the working espresso bar. */
+.pastry-copy>p:last-child{display:table;background:#fffaf0e8;padding:.6rem .85rem;border-left:1px solid #31544866;text-shadow:none}
+.pastry-footer>span:first-child{color:#fff9e9;text-shadow:0 1px 5px #26372e}
+@media(max-width:760px){.pastry-footer>span:first-child{color:#263f38;text-shadow:0 1px 8px #fff6e2}}
+@media(max-width:760px){.pastry-copy{top:16%}}

@@ -1,0 +1,38 @@
+.riviera-gallery{position:absolute;inset:0;z-index:12;isolation:isolate;overflow:hidden;background:#88cde5;color:#103e59;opacity:0;visibility:hidden;transform:translate3d(24vw,0,-650px) rotateY(-19deg) scale(1.1);transform-origin:70% 55%;transition:transform .95s cubic-bezier(.2,.75,.2,1),opacity .65s,visibility .95s;--riviera-sun:.21;--riviera-shadow:0px}
+.riviera-gallery.is-active{opacity:1;visibility:visible;transform:translate3d(0,0,0) rotateY(0) scale(1)}
+.showing-riviera .liquors-gallery,.showing-riviera .pastry-gallery,.showing-riviera .souk-gallery,.showing-riviera .amber-gallery,.showing-riviera .cedar-gallery,.showing-riviera .sultans-gallery,.showing-riviera .gardens-gallery,.showing-riviera .marines-gallery{transform:translate3d(-20vw,0,300px) rotateY(16deg)}
+.riviera-environment,.riviera-photograph,.riviera-water,.riviera-sunlight,.riviera-tone,.riviera-atmosphere{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.riviera-photograph{object-fit:cover}
+.riviera-sunlight{background:linear-gradient(112deg,transparent 30%,#ffffed 47%,transparent 65%);opacity:var(--riviera-sun);mix-blend-mode:soft-light;transform:translateX(var(--riviera-shadow))}
+.riviera-tone{background:linear-gradient(#e9faff35,transparent 26%,transparent 82%,#01495d12)}
+.riviera-copy{position:absolute;z-index:3;left:33%;top:14%;max-width:60%;text-shadow:0 1px 18px #ffffff28}
+.riviera-eyebrow{display:flex;align-items:center;gap:.9rem;font-size:.875rem;letter-spacing:.12em;text-transform:uppercase;margin:0 0 1.5rem;white-space:nowrap}
+.riviera-eyebrow span{width:2rem;height:1px;background:#103e5970}
+.riviera-copy h2{margin:0;font:400 clamp(5rem,11vw,12rem)/.89 var(--museum-display);letter-spacing:-.045em}
+.riviera-copy h2 span{display:block;font-size:.35em;font-style:italic;letter-spacing:-.01em;margin-bottom:.3em}
+.riviera-copy>p:last-child{font-size:clamp(1rem,1.15vw,1.15rem);line-height:1.65;margin:1.8rem 0 0}
+.riviera-pool-touch{position:absolute;z-index:4;inset:0;clip-path:var(--pool-clip);border:0;background:transparent;cursor:crosshair;min-height:44px}
+.riviera-pool-touch:focus-visible{outline:none;background:#ffffff38}
+.riviera-footer{position:absolute;z-index:5;left:4vw;right:4vw;bottom:2.7rem;display:flex;justify-content:space-between;gap:1rem;font-size:.8rem;letter-spacing:.04em;color:#103e59;text-shadow:0 1px 7px #ffffff88;pointer-events:none}
+.riviera-status{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.showing-riviera .museum-header{background:linear-gradient(#f8ffffce,transparent);color:#103e59;text-shadow:none}
+.showing-riviera .edition-label,.showing-riviera .museum-mark__name i,.showing-riviera .motion-control{color:#103e59}
+.showing-riviera .motion-control{border-bottom-color:#103e5955}
+.showing-riviera .museum-mark__seal,.showing-riviera .museum-mark__seal::after{border-color:#103e5970}
+.showing-riviera .gallery-rail{background:#f4fcffe3;border-color:#16507340}
+.showing-riviera .gallery-rail button{color:#225571}
+.showing-riviera .gallery-rail button:hover,.showing-riviera .gallery-rail button[aria-current]{background:#155978;color:#fffef3}
+.showing-riviera .gallery-rail button:focus-visible{outline-color:#155978}
+.showing-liquors .enter-marines{bottom:5rem}
+@media(max-width:1100px) and (min-width:761px){.riviera-copy{left:12%;top:22%;max-width:70%}.riviera-copy h2{font-size:12vw}.riviera-eyebrow{font-size:.75rem;letter-spacing:.07em}}
+@media(max-width:760px){
+ .riviera-photograph{object-position:55% center}
+ .riviera-copy{left:7vw;top:20%;max-width:87%}.riviera-copy h2{font-size:clamp(4.5rem,23vw,7rem)}
+ .riviera-eyebrow{font-size:.75rem;gap:.55rem;letter-spacing:.04em;margin-bottom:1.2rem}.riviera-eyebrow span{width:1.1rem}
+ .riviera-copy>p:last-child{font-size:1rem;line-height:1.55;max-width:19rem;margin-top:1.4rem}
+ .riviera-footer{left:7vw;bottom:5.5rem;font-size:.75rem}.riviera-footer>span:last-child{display:none}
+ .showing-liquors .enter-marines{bottom:7.8rem}
+}
+@media(max-height:650px) and (min-width:761px){.riviera-copy{top:18%}.riviera-copy h2{font-size:18vh}.riviera-eyebrow{margin-bottom:.6rem}.riviera-copy>p:last-child{margin-top:.8rem}}
+@media(prefers-reduced-motion:reduce){.riviera-gallery{transition:opacity .15s;transform:none!important}.riviera-water,.riviera-atmosphere,.riviera-sunlight{display:none}}
+.riviera-copy>p:last-child{display:table;padding:.55rem .8rem;background:#f6fdffdb;border-left:1px solid #1b577766;text-shadow:none}

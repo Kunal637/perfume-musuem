@@ -1,0 +1,39 @@
+.souk-gallery{position:absolute;inset:0;z-index:9;isolation:isolate;overflow:hidden;background:#f5d6a2;color:#123c46;opacity:0;visibility:hidden;transform:translate3d(24vw,0,-650px) rotateY(-19deg) scale(1.1);transform-origin:70% 55%;transition:transform .95s cubic-bezier(.2,.75,.2,1),opacity .65s,visibility .95s;--souk-sway:0deg;--souk-silk:0px;--souk-light:.16;--souk-scale:1;--muse-x:63%;--muse-y:84%}
+.souk-gallery.is-active{opacity:1;visibility:visible;transform:translate3d(0,0,0) rotateY(0) scale(1)}
+.showing-souk .amber-gallery,.showing-souk .cedar-gallery,.showing-souk .sultans-gallery,.showing-souk .gardens-gallery,.showing-souk .marines-gallery{transform:translate3d(-20vw,0,300px) rotateY(16deg)}
+.souk-environment,.souk-photograph,.souk-fabric,.souk-daylight,.souk-atmosphere{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.souk-environment{transform:translate3d(calc(var(--look-x) * .5),calc(var(--look-y) * .5),0) scale(1.015)}
+.souk-photograph{object-fit:cover}
+.souk-daylight{background:radial-gradient(ellipse at 30% 20%,#fff5d4,transparent 65%);mix-blend-mode:soft-light;opacity:var(--souk-light)}
+.souk-muse{position:absolute;left:var(--muse-x);top:var(--muse-y);width:calc(215px * var(--souk-scale));transform:translate(-50%,-100%) rotate(var(--souk-sway));transform-origin:50% 100%;filter:drop-shadow(8px 5px 4px #38231b24)}
+.souk-muse img{display:block;width:100%;height:auto;transform:skewX(calc(var(--souk-sway) * -.7));transform-origin:50% 15%}
+.souk-copy{position:absolute;z-index:4;left:32%;top:17%;max-width:52%;text-shadow:0 1px 18px #fff3d030}
+.souk-eyebrow{display:flex;align-items:center;gap:1rem;font-size:.875rem;letter-spacing:.12em;text-transform:uppercase;margin:0 0 1.6rem;white-space:nowrap}
+.souk-eyebrow span{width:2.4rem;height:1px;background:#123c4680}
+.souk-copy h2{margin:0;font:400 clamp(5rem,10.8vw,12rem)/.87 var(--museum-display);letter-spacing:-.04em}
+.souk-copy h2 span{display:block;font-size:.34em;font-style:italic;letter-spacing:-.01em;margin-bottom:.3em}
+.souk-copy>p:last-child{font-size:clamp(1rem,1.15vw,1.15rem);line-height:1.7;margin:1.7rem 0 0}
+.souk-footer{position:absolute;z-index:4;left:4vw;right:4vw;bottom:2.7rem;display:flex;justify-content:space-between;gap:1rem;font-size:.8rem;letter-spacing:.04em;color:#fff8e8;text-shadow:0 1px 8px #362416}
+.showing-souk .museum-header{background:linear-gradient(#fff7e5d9,transparent);color:#183c45}
+.showing-souk .motion-control{color:#183c45;border-bottom-color:#183c454d}
+.showing-souk .museum-mark__seal,.showing-souk .museum-mark__seal::after{border-color:#183c4573}
+.showing-souk .gallery-rail{background:#fff6e6e6;border-color:#294b4240}
+.showing-souk .gallery-rail button{color:#25434b}
+.showing-souk .gallery-rail button:hover,.showing-souk .gallery-rail button[aria-current]{background:#16444c;color:#fff6df}
+.showing-souk .gallery-rail button:focus-visible{outline-color:#16444c}
+.showing-amber .enter-marines{bottom:5rem}
+@media(min-width:761px){.gallery-rail{top:50%;transform:translateY(-50%);max-height:calc(100svh - 160px);overflow-y:auto;scrollbar-width:thin}}
+@media(max-width:1100px) and (min-width:761px){.souk-copy{left:24%;top:17%;max-width:66%}.souk-copy h2{font-size:13vw}.souk-eyebrow{font-size:.75rem}}
+@media(max-width:760px){
+ .souk-photograph{object-position:65% center}
+ .souk-copy{left:7vw;top:18%;max-width:87%}.souk-copy h2{font-size:clamp(5rem,23vw,7rem)}
+ .souk-eyebrow{font-size:.75rem;gap:.6rem;letter-spacing:.08em;margin-bottom:1.3rem}.souk-eyebrow span{width:1.6rem}
+ .souk-copy>p:last-child{font-size:1rem;line-height:1.55;max-width:19rem;margin-top:1.3rem}
+ .souk-footer{left:7vw;bottom:5.5rem;font-size:.75rem}.souk-footer>span:last-child{display:none}
+ .showing-amber .enter-marines{bottom:7.8rem}
+}
+@media(max-height:650px) and (min-width:761px){.souk-copy{top:16%}.souk-copy h2{font-size:17vh}.souk-eyebrow{margin-bottom:.7rem}.souk-copy>p:last-child{margin-top:.8rem}}
+@media(prefers-reduced-motion:reduce){.souk-gallery{transition:opacity .15s;transform:none!important}.souk-environment{transform:none}.souk-muse{transform:translate(-50%,-100%)}.souk-muse img{transform:none}.souk-atmosphere,.souk-fabric,.souk-daylight{display:none}}
+.showing-souk .museum-header{text-shadow:none}
+.showing-souk .edition-label,.showing-souk .museum-mark__name i{color:#183c45}
+@media(max-width:760px){.souk-footer{color:#183c45;text-shadow:0 1px 7px #fff4dd}}

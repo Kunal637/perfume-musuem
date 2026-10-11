@@ -1,0 +1,38 @@
+.tobacco-gallery{position:absolute;inset:0;z-index:13;isolation:isolate;overflow:hidden;background:#362116;color:#fff0d7;opacity:0;visibility:hidden;transform:translate3d(24vw,0,-650px) rotateY(-19deg) scale(1.1);transform-origin:70% 55%;transition:transform .95s cubic-bezier(.2,.75,.2,1),opacity .65s,visibility .95s;--tobacco-light:.14}
+.tobacco-gallery.is-active{opacity:1;visibility:visible;transform:translate3d(0,0,0) rotateY(0) scale(1)}
+.showing-tobacco .riviera-gallery{transform:translate3d(-20vw,0,300px) rotateY(16deg)}
+.tobacco-environment,.tobacco-photograph,.tobacco-tone,.tobacco-sunlight,.tobacco-atmosphere{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.tobacco-photograph{object-fit:cover;object-position:55% center}
+.tobacco-sunlight{background:linear-gradient(117deg,transparent 40%,#ffd894 68%,transparent 82%);mix-blend-mode:soft-light;opacity:var(--tobacco-light)}
+.tobacco-tone{background:linear-gradient(90deg,#1c120bb3,transparent 65%),linear-gradient(#1b100f30,transparent 20%,transparent 78%,#180e0666)}
+.tobacco-gentleman{position:absolute;right:-1%;bottom:-12%;width:min(46vw,760px);pointer-events:none;filter:drop-shadow(10px 15px 15px #160d0a55)}
+.tobacco-gentleman img{display:block;width:100%;height:auto}
+.tobacco-gentleman canvas{position:absolute;inset:0;width:100%;height:100%}
+.tobacco-gentleman[data-ready=true] img{opacity:0}
+.tobacco-atmosphere{z-index:2}
+.tobacco-copy{position:absolute;z-index:3;left:9vw;top:22%;max-width:61%;text-shadow:0 2px 20px #1f120a40}
+.tobacco-eyebrow{display:flex;align-items:center;gap:.8rem;margin:0 0 1.4rem;font-size:.875rem;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+.tobacco-eyebrow span{height:1px;width:2rem;background:#ffdc9c80}
+.tobacco-copy h2{font:400 clamp(5.4rem,9.8vw,10.8rem)/.85 var(--museum-display);letter-spacing:-.035em;margin:0}
+.tobacco-copy h2 span{display:block;font-size:.32em;font-style:italic;letter-spacing:0;margin-bottom:.3em}
+.tobacco-copy h2 em{font-weight:400;color:#f9ce8b}
+.tobacco-copy>p:last-child{font-size:clamp(1rem,1.15vw,1.15rem);line-height:1.65;margin:1.8rem 0 0;color:#fff0d7}
+.tobacco-footer{position:absolute;z-index:4;left:4vw;right:4vw;bottom:2.7rem;display:flex;justify-content:space-between;gap:1rem;font-size:.8rem;letter-spacing:.04em;color:#ffe4b5;pointer-events:none}
+.showing-tobacco .museum-header{background:linear-gradient(#21140c99,transparent);color:#fff0d7}
+.showing-tobacco .gallery-rail{background:#261910d9;border-color:#ffdf9d40}
+.showing-tobacco .gallery-rail button{color:#ffedcfb8}
+.showing-tobacco .gallery-rail button:hover,.showing-tobacco .gallery-rail button[aria-current]{background:#edc27d30;color:#fff8e9}
+.showing-tobacco .gallery-menu-toggle{background:#392417ed;border-color:#efc88777}
+.showing-riviera .enter-marines{bottom:5rem;background:#f5fbf0e8;color:#103e59;border-color:#103e5955}
+@media(max-width:1100px) and (min-width:761px){.tobacco-copy{left:7vw;top:24%}.tobacco-eyebrow{font-size:.75rem;letter-spacing:.07em}.tobacco-copy h2{font-size:11vw}.tobacco-copy>p:last-child{max-width:34vw}.tobacco-gentleman{width:43vw;right:16%;bottom:7%}}
+@media(max-width:760px){
+ .tobacco-copy{left:7vw;top:18%;max-width:88%}.tobacco-copy h2{font-size:clamp(4.5rem,21vw,7rem)}
+ .tobacco-eyebrow{font-size:.75rem;gap:.45rem;letter-spacing:.02em;margin-bottom:1.2rem}.tobacco-eyebrow span{width:1rem}
+ .tobacco-copy>p:last-child{font-size:1rem;line-height:1.55;max-width:20rem;margin-top:1.3rem}
+ .tobacco-tone{background:linear-gradient(#1b100f50,#23130a66 48%,transparent 67%,#180e0666)}
+ .tobacco-gentleman{width:70vw;right:-1%;bottom:3%}
+ .tobacco-footer{left:7vw;bottom:5.5rem;font-size:.75rem}.tobacco-footer>span:last-child{display:none}
+ .showing-riviera .enter-marines{bottom:7.8rem}
+}
+@media(max-height:650px) and (min-width:761px){.tobacco-copy{top:18%}.tobacco-copy h2{font-size:18vh}.tobacco-eyebrow{margin-bottom:.65rem}.tobacco-copy>p:last-child{margin-top:1rem}.tobacco-gentleman{width:34vw;max-width:55vh}}
+@media(prefers-reduced-motion:reduce){.tobacco-gallery{transition:opacity .15s;transform:none!important}.tobacco-atmosphere,.tobacco-sunlight,.tobacco-gentleman canvas{display:none}.tobacco-gentleman img{opacity:1!important}}
