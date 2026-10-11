@@ -17,6 +17,10 @@ This starter does not use `wrangler.jsonc`.
 
 Scripts that need writable project-scoped home, npm, XDG, and temporary paths use `scripts/sites-env.sh`. The `dev` and `start` scripts honor the caller's runtime environment and keep Wrangler logs inside the checkout. The generated `.sites-runtime/` directory is disposable and ignored by Git.
 
+## Vercel
+
+Vercel uses the Nitro adapter with the Vite framework preset and deploys the generated `.vercel/output` Build Output API directory. The Vercel-specific adapter and Tailwind Vite plugin are selected only during Vercel builds; local builds continue to use the Cloudflare adapter.
+
 ## Included Shape
 
 - edit site code under `app/`
