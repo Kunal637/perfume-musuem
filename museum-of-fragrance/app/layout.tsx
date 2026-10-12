@@ -11,6 +11,7 @@ import "./pastry.css";
 import "./liquors.css";
 import "./riviera.css";
 import "./tobacco.css";
+import "./room-portal.css";
 import "./living-museum.css";
 
 export const metadata: Metadata = {

@@ -1,5 +1,7 @@
 "use client";
 
+
+import {RoomPortal} from "./room-portal";
 import {LivingMaterials} from "./living-materials";
 import {getRoomMoment} from "./room-response";
 
@@ -126,5 +128,6 @@ export function RivieraGallery({active,paused}:{active:boolean;paused:boolean}){
     <button className="riviera-pool-touch" type="button" onClick={touchPool} aria-label="Touch the pool at this point" title="A moment of stillness"/>
     <div className="riviera-footer"><span>The quiet art of feeling fresh.</span><span>09 / The Riviera</span></div>
     <span className="riviera-status" role="status">{touched?(paused?"A quiet moment by the water.":"A ripple travels across the sunlit pool."):""}</span>
+  <RoomPortal room="riviera" active={active} paused={paused}/>
   </section>;
 }

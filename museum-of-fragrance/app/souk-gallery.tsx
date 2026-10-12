@@ -1,96 +1,114 @@
 "use client";
 
-import {useRoomResponse,driftPoint} from "./room-response";
-
-import {LivingMaterials} from "./living-materials";
-
 import {useEffect,useRef} from "react";
 
-const PHOTO="/images/souk-gallery.webp";
+/**
+ * The Souk: a scroll-scrubbed film. 96 pre-rendered frames (public/souk-frames) run from a bottle on stone,
+ * through its emblem and the amber liquid, into the lantern-lit market and out to the desert arch.
+ * Progress comes from --room-progress (set by museum-entrance.tsx across this room's runway), so the film
+ * scrubs forward and backward with native scroll. Frames load coarse-to-fine so scrubbing works immediately.
+ */
+
+const FRAME_COUNT=96;
+const frameSrc=(index:number)=>`/souk-frames/${String(index+1).padStart(3,"0")}.webp`;
+
+// Module-level cache so revisiting the room never reloads or re-decodes frames.
+const frames:(HTMLImageElement|undefined)[]=new Array(FRAME_COUNT);
+const loaded:boolean[]=new Array(FRAME_COUNT).fill(false);
+let loadingStarted=false;
+
+function startLoading(){
+  if(loadingStarted)return;loadingStarted=true;
+  const order:number[]=[];const seen=new Set<number>();
+  for(const step of [8,4,2,1])for(let i=0;i<FRAME_COUNT;i+=step)if(!seen.has(i)){seen.add(i);order.push(i);}
+  if(!seen.has(FRAME_COUNT-1))order.push(FRAME_COUNT-1);
+  let next=0;
+  const worker=async()=>{
+    while(next<order.length){
+      const index=order[next++];
+      const image=new Image();image.decoding="async";frames[index]=image;
+      await new Promise<void>(resolve=>{image.onload=()=>{loaded[index]=true;resolve();};image.onerror=()=>resolve();image.src=frameSrc(index);});
+    }
+  };
+  for(let i=0;i<6;i++)void worker();
+}
+
+const nearestLoaded=(frame:number)=>{
+  for(let d=0;d<FRAME_COUNT;d++){
+    const before=frame-d,after=frame+d;
+    if(before>=0&&loaded[before])return before;
+    if(after<FRAME_COUNT&&loaded[after])return after;
+  }
+  return -1;
+};
+
+// Text moments, as fractions of the room's scroll. Each fades in and out over 5% of progress.
+const BEATS=[[0,.17],[.26,.5],[.56,.76],[.84,1.01]] as const;
+const ramp=(p:number,a:number,b:number)=>{const f=.05;return p<a||p>b?0:Math.min(1,(p-a)/f,(b-p)/f);};
 
 export function SoukGallery({active,paused}:{active:boolean;paused:boolean}){
-  const root=useRef<HTMLElement>(null),air=useRef<HTMLCanvasElement>(null),fabric=useRef<HTMLCanvasElement>(null);
-  const response=useRoomResponse(root,"souk",active,paused);
+  const root=useRef<HTMLElement>(null),canvas=useRef<HTMLCanvasElement>(null);
+  const beatEls=useRef<(HTMLDivElement|null)[]>([]);
+  const pausedRef=useRef(paused);pausedRef.current=paused;
 
   useEffect(()=>{
-    if(!active||paused)return;
-    const scene=root.current,canvas=air.current,cloth=fabric.current;if(!scene||!canvas||!cloth)return;
-    const ctx=canvas.getContext("2d"),silk=cloth.getContext("2d");if(!ctx||!silk)return;
-    const photo=new Image();let ready=false;photo.onload=()=>{ready=true;};photo.src=PHOTO;
-    let w=1,h=1,clock=0,previous=0,last=0,raf=0;
+    if(!active)return;
+    const scene=root.current,cv=canvas.current;if(!scene||!cv)return;
+    const ctx=cv.getContext("2d");if(!ctx)return;
+    startLoading();
+    const journey=scene.closest<HTMLElement>(".museum-journey");
+    const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let cur=-1,drawn=-2,raf=0,sized=false;
+    const lastOpacity=[-1,-1,-1,-1];
+
     const resize=()=>{
-      w=canvas.clientWidth;h=canvas.clientHeight;canvas.width=cloth.width=w;canvas.height=cloth.height=h;
-      const scale=Math.max(w/1672,h/941),ox=(w-1672*scale)*(w<760?.65:.5),oy=(h-941*scale)*.5;
-      scene.style.setProperty("--souk-scale",String(scale));
-      scene.style.setProperty("--muse-x",`${(w<760?1100:1050)*scale+ox}px`);
-      scene.style.setProperty("--muse-y",`${790*scale+oy}px`);
+      const dpr=Math.min(window.devicePixelRatio||1,2);
+      const w=Math.max(1,Math.round(cv.clientWidth*dpr)),h=Math.max(1,Math.round(cv.clientHeight*dpr));
+      const cap=Math.min(1,1920/w);cv.width=Math.round(w*cap);cv.height=Math.round(h*cap);
+      sized=true;drawn=-2;
     };
-    const observer=new ResizeObserver(resize);observer.observe(canvas);resize();
-    const frame=(now:number)=>{
-      raf=requestAnimationFrame(frame);const dt=previous?(now-previous)/1000:0;previous=now;
-      if(document.hidden)return;
-      clock+=dt;if(now-last<33)return;last=now;
-      const scale=Math.max(w/1672,h/941),ox=(w-1672*scale)*(w<760?.65:.5),oy=(h-941*scale)*.5;
-      scene.style.setProperty("--souk-sway",`${(Math.sin(clock*.52)*.55+Math.sin(clock*.83)*.18).toFixed(3)}deg`);
-      scene.style.setProperty("--souk-silk",`${(Math.sin(clock*.87)*1.6).toFixed(3)}px`);
-      scene.style.setProperty("--souk-light",(.16+Math.sin(clock*.24)*.055).toFixed(3));
-      if(ready){
-        silk.clearRect(0,0,w,h);silk.save();silk.setTransform(scale,0,0,scale,ox,oy);
-        // Move the hanging blue silk, leaving stone, ropes and camel sharp.
-        silk.beginPath();silk.moveTo(1480,0);silk.lineTo(1672,0);silk.lineTo(1672,941);silk.lineTo(1510,941);silk.lineTo(1560,405);silk.lineTo(1555,280);silk.closePath();silk.clip();
-        for(let y=0;y<941;y+=4){const flow=(Math.sin(y*.013-clock*1.14)*1.8+Math.sin(y*.029+clock*.61)*.6)*Math.sin(y/941*Math.PI);silk.drawImage(photo,1460,y,212,4,1460+flow,y,212,4);}
-        silk.restore();
-        // A separate awning patch bends around its upper suspension point.
-        silk.save();silk.setTransform(scale,0,0,scale,ox,oy);silk.beginPath();silk.moveTo(1090,0);silk.lineTo(1455,0);silk.lineTo(1480,67);silk.lineTo(1375,82);silk.lineTo(1195,43);silk.closePath();silk.clip();
-        silk.globalAlpha=.85;silk.drawImage(photo,1070,0,430,100,1070,Math.sin(clock*.75)*1.7,430,100);silk.restore();
-      }
-      ctx.clearRect(0,0,w,h);ctx.save();ctx.setTransform(scale,0,0,scale,ox,oy);
-      // Bakhoor convection is attached to the actual brass burner.
-      ctx.strokeStyle="#e4e5df";ctx.shadowColor="#e9e8e1";ctx.shadowBlur=9;
-      for(let i=0;i<9;i++){
-        const p=(clock*.033+i*.111)%1;ctx.globalAlpha=Math.sin(p*Math.PI)*.16;ctx.lineWidth=1.5+p*3;
-        ctx.beginPath();ctx.moveTo(244,572);ctx.bezierCurveTo(244+Math.sin(clock*.64+i)*20,530,210+Math.sin(clock*.43+i)*40,555-p*165,225+Math.sin(clock*.34+i)*60,565-p*290);ctx.stroke();
-      }
-      ctx.shadowBlur=0;
-      [[204,156,7],[1375,194,6],[1118,404,5],[901,655,5],[1425,654,5]].forEach(([x,y,r],i)=>{
-        const glow=.58+Math.sin(clock*(1.23+i*.17)+i)*.2+Math.sin(clock*2.37+i*1.7)*.07;
-        ctx.globalCompositeOperation="screen";ctx.globalAlpha=glow*.6;
-        const g=ctx.createRadialGradient(x,y,0,x,y,r*4);g.addColorStop(0,"#ffd080bb");g.addColorStop(.2,"#ffc26155");g.addColorStop(1,"#ffb75a00");ctx.fillStyle=g;ctx.fillRect(x-r*4,y-r*4,r*8,r*8);
+    const observer=new ResizeObserver(resize);observer.observe(cv);resize();
+
+    const draw=(index:number)=>{
+      const image=frames[index];if(!image||!image.complete||!image.naturalWidth)return false;
+      const cw=cv.width,ch=cv.height,s=Math.max(cw/image.naturalWidth,ch/image.naturalHeight);
+      const iw=image.naturalWidth*s,ih=image.naturalHeight*s;
+      ctx.drawImage(image,(cw-iw)/2,(ch-ih)/2,iw,ih);return true;
+    };
+
+    const frame=()=>{
+      raf=requestAnimationFrame(frame);
+      if(document.hidden||!sized)return;
+      const progress=Math.min(1,Math.max(0,parseFloat(journey?.style.getPropertyValue("--room-progress")||"0")||0));
+      const target=progress*(FRAME_COUNT-1);
+      if(cur<0)cur=target;
+      cur+=(target-cur)*(reduce||pausedRef.current?1:.14);
+      if(Math.abs(target-cur)<.01)cur=target;
+      const wanted=nearestLoaded(Math.round(cur));
+      if(wanted>=0&&wanted!==drawn&&draw(wanted)){drawn=wanted;if(scene.dataset.film!=="ready")scene.dataset.film="ready";}
+      BEATS.forEach(([a,b],i)=>{
+        const el=beatEls.current[i];if(!el)return;
+        const o=Math.round(ramp(cur/(FRAME_COUNT-1),a,b)*100)/100;
+        if(o===lastOpacity[i])return;lastOpacity[i]=o;
+        el.style.opacity=String(o);el.style.setProperty("--beat-shift",`${((1-o)*18).toFixed(1)}px`);
       });
-      // Grazing sand streams stay close to the ground, never a storm.
-      ctx.globalCompositeOperation="source-over";ctx.strokeStyle="#cfa06a";
-      const grains=w<760?80:170;
-      for(let i=0;i<grains;i++){
-        const depth=(i%5)/4,p=(i*.618+clock*(.05+depth*.035))%1;
-        const x=p*1750-40,y=675+(i*.173%1)*270+Math.sin(clock*.6+i)*4;
-        ctx.globalAlpha=Math.sin(p*Math.PI)*(.24+depth*.23);ctx.lineWidth=.5+depth*.6;
-        ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+2+depth*5,y-.4);ctx.stroke();
-      }
-      ctx.restore();
-      for(let i=0;i<(w<760?28:60);i++){
-        const p=(i*.173+clock*(.008+(i%4)*.002))%1;
-        ctx.globalAlpha=Math.sin(p*Math.PI)*.32;ctx.fillStyle=i%3?"#ad783f":"#fff0bc";
-        const [px,py]=driftPoint(((i*.618+clock*.013)%1)*w+Math.sin(clock*.3+i)*14,(1-p)*h,response.current,now);
-        ctx.beginPath();ctx.arc(px,py,.55+(i%3)*.42,0,Math.PI*2);ctx.fill();
-      }
-      scene.dataset.environmentTime=clock.toFixed(2);
-    };raf=requestAnimationFrame(frame);
-    const reset=()=>{previous=0;};document.addEventListener("visibilitychange",reset);
-    return()=>{cancelAnimationFrame(raf);observer.disconnect();photo.onload=null;document.removeEventListener("visibilitychange",reset);};
-  },[active,paused,response]);
+    };
+    raf=requestAnimationFrame(frame);
+    return()=>{cancelAnimationFrame(raf);observer.disconnect();};
+  },[active]);
+
   return <section id="the-souk" ref={root} className={`souk-gallery${active?" is-active":""}`} aria-labelledby="souk-title" aria-hidden={!active} inert={!active}>
-    <div className="souk-environment" aria-hidden="true">
-      <LivingMaterials scene="souk" active={active} paused={paused}/>
-      <img className="souk-photograph" src={PHOTO} alt="" decoding="async"/>
-      <canvas ref={fabric} className="souk-fabric"/>
-      <div className="souk-daylight"/>
-      <canvas ref={air} className="souk-atmosphere"/>
+    <canvas ref={canvas} className="souk-film" aria-hidden="true"/>
+    <div className="souk-shade" aria-hidden="true"/>
+    <div className="souk-grain" aria-hidden="true"/>
+    <div className="souk-loading" aria-hidden="true"><span>Entering the souk</span><i/></div>
+    <div className="souk-beat souk-beat--title" ref={el=>{beatEls.current[0]=el;}}>
+      <span className="souk-label">Gallery 06</span>
+      <h2 id="souk-title" tabIndex={-1}>THE SOUK</h2>
+      <p className="souk-sub">Where the desert whispers in amber.</p>
     </div>
-    <div className="souk-copy">
-      <p className="souk-eyebrow">Gallery 06 <span/> Oud · Resins</p>
-      <h2 id="souk-title" tabIndex={-1}><span>The</span> Souk</h2>
-      <p>Precious oud. Smouldering bakhoor.<br/>Resinous treasures, carried on desert air.</p>
-    </div>
-    <div className="souk-footer"><span>Where the precious becomes perfume.</span><span>06 / The Souk</span></div>
+    <div className="souk-beat souk-beat--center" ref={el=>{beatEls.current[1]=el;}}><p className="souk-line">A world within.</p></div>
+    <div className="souk-beat souk-beat--center" ref={el=>{beatEls.current[2]=el;}}><p className="souk-caps">Spice &nbsp;·&nbsp; Oud &nbsp;·&nbsp; Sand &nbsp;·&nbsp; Lantern light</p></div>
+    <div className="souk-beat souk-beat--end" ref={el=>{beatEls.current[3]=el;}}><p className="souk-line souk-line--end">Step into the market.</p></div>
   </section>;
 }

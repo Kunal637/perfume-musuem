@@ -4,15 +4,13 @@ import {useRoomResponse,driftPoint,responseStrength} from "./room-response";
 
 import {LivingMaterials} from "./living-materials";
 
-import {useCallback,useEffect,useRef,useState} from "react";
+import {useEffect,useRef} from "react";
 
-import {AmberBottle3D} from "./amber-bottle-3d";
+import {RoomPortal} from "./room-portal";
 
 export function AmberGallery({active,paused}:{active:boolean;paused:boolean}){
   const root=useRef<HTMLElement>(null),air=useRef<HTMLCanvasElement>(null);
   const response=useRoomResponse(root,"amber",active,paused);
-  const [gl,setGl]=useState(false);
-  const onGl=useCallback((ready:boolean)=>setGl(ready),[]);
 
   useEffect(()=>{
     if(!active||paused)return;
@@ -72,21 +70,12 @@ export function AmberGallery({active,paused}:{active:boolean;paused:boolean}){
       <div className="amber-lightwash"/>
       <div className="amber-shade"/><canvas ref={air} className="amber-atmosphere"/>
     </div>
-    <div className="amber-portal" data-gl={gl?"ready":"fallback"}>
-      <div className="amber-portal__veil" aria-hidden="true"/>
-      <AmberBottle3D active={active} paused={paused} onReady={onGl}/>
-      <div className="amber-portal__bottle" aria-hidden="true">
-        <i className="amber-portal__cap"/><i className="amber-portal__neck"/>
-        <div className="amber-portal__glass">
-          <i className="amber-portal__liquid"/><i className="amber-portal__drop"/><i className="amber-portal__shine"/>
-        </div>
-      </div>
-    </div>
     <div className="amber-copy">
       <p className="amber-eyebrow">Gallery 05 <span/> Amber · Warmth</p>
       <h2 id="amber-title" tabIndex={-1}><span>The</span> Amber<br/>Lounge</h2>
       <p>Golden resins. Velvet warmth.<br/>Amber fragrances with an after-hours soul.</p>
     </div>
     <div className="amber-footer"><span>Stay for one more song.</span><span>05 / Amber Lounge</span></div>
+  <RoomPortal room="amber" active={active} paused={paused}/>
   </section>;
 }

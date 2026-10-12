@@ -1,4 +1,6 @@
 "use client";
+
+import {RoomPortal} from "./room-portal";
 import {useEffect,useRef} from "react";
 import {LivingMaterials} from "./living-materials";
 import {driftPoint,responseStrength,useRoomResponse} from "./room-response";
@@ -32,5 +34,6 @@ export function TobaccoGallery({active,paused}:{active:boolean;paused:boolean}){
   <canvas ref={air} className="tobacco-atmosphere" aria-hidden="true"/>
   <div className="tobacco-copy"><p className="tobacco-eyebrow">Gallery 10 <span/> Tobacco · Leather · Smoke</p><h2 id="tobacco-title" tabIndex={-1}><span>The</span>Tobacco<br/><em>Shop</em></h2><p>Golden leaf. Worn leather. A slow curl of smoke.<br/>Fragrances with a story that lingers.</p></div>
   <div className="tobacco-footer"><span>The last room. A lasting impression.</span><span>10 / The Tobacco Shop</span></div>
- </section>;
+ <RoomPortal room="tobacco" active={active} paused={paused}/>
+  </section>;
 }

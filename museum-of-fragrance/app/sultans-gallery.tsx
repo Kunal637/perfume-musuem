@@ -1,5 +1,7 @@
 "use client";
 
+
+import {RoomPortal} from "./room-portal";
 import {useRoomResponse,driftPoint,responseStrength} from "./room-response";
 
 import {LivingMaterials} from "./living-materials";
@@ -91,5 +93,6 @@ export function SultansGallery({active,paused}:{active:boolean;paused:boolean}){
       <p>Sandalwood, amber, resins and oud.<br/>An opulent collection with lasting presence.</p>
     </div>
     <div className="sultan-footer"><span>Where richness reigns.</span><span>03 / The Sultans</span></div>
+  <RoomPortal room="sultans" active={active} paused={paused}/>
   </section>;
 }

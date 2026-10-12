@@ -1,5 +1,7 @@
 "use client";
 
+
+import {RoomPortal} from "./room-portal";
 import {useRoomResponse,driftPoint} from "./room-response";
 
 import {LivingMaterials} from "./living-materials";
@@ -126,5 +128,6 @@ export function PastryGallery({ active, paused }: { active: boolean; paused: boo
     </button>
     <div className="pastry-footer"><span>{found?"Some sweetness finds you back.":"An appetite for the extraordinary."}</span><span>07 / The Pastry Room</span></div>
     <span className="pastry-discovery-status" role="status">{found?"You found the marshmallow rabbit.":""}</span>
+  <RoomPortal room="pastry" active={active} paused={paused}/>
   </section>;
 }

@@ -1,5 +1,7 @@
 "use client";
 
+
+import {RoomPortal} from "./room-portal";
 import {useRoomResponse,driftPoint,responseStrength} from "./room-response";
 
 import {LivingMaterials} from "./living-materials";
@@ -74,5 +76,6 @@ export function LiquorsGallery({active,paused}:{active:boolean;paused:boolean}){
     <canvas ref={air} className="liquors-atmosphere" aria-hidden="true"/>
     <div className="liquors-copy"><p className="liquors-eyebrow">Gallery 08 <span/> Spirits · Woods · Amber</p><h2 id="liquors-title" tabIndex={-1}><span>The</span>Liquors</h2><p>Oak-aged warmth. A measure of indulgence.<br/>Boozy fragrances, beautifully composed.</p></div>
     <div className="liquors-footer"><span>Good taste. Long after the last note.</span><span>08 / The Liquors</span></div>
+  <RoomPortal room="liquors" active={active} paused={paused}/>
   </section>;
 }

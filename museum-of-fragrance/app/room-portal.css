@@ -1,0 +1,29 @@
+/* Shared room entrance (see room-portal.tsx). --room-progress (0..1) is set by museum-entrance.tsx;
+   --room-enter maps its first ~11% to 0..1. Colours come from per-room custom properties. */
+.room-portal{--room-enter:clamp(0,calc(var(--room-progress,1) * 9),1);position:absolute;inset:0;z-index:20;pointer-events:none;overflow:hidden;opacity:calc(1 - clamp(0,calc((var(--room-enter) - .82) * 5.5),1))}
+.room-portal__veil{position:absolute;inset:0;background:radial-gradient(circle at 50% 54%,#0000 calc(var(--room-enter) * 95%),var(--portal-veil) calc(var(--room-enter) * 95% + 28%));backdrop-filter:blur(calc((1 - var(--room-enter)) * 10px));-webkit-backdrop-filter:blur(calc((1 - var(--room-enter)) * 10px))}
+.room-portal::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;background:radial-gradient(circle at 50% 54%,#fff 18%,var(--portal-2) 62%,var(--portal-3) 100%);opacity:clamp(0,calc((var(--room-enter) - .3) * 1.7),1)}
+
+/* CSS flacon: fallback when WebGL is unavailable. */
+.room-portal__bottle{display:none;--b:min(46vw,30vh);position:absolute;left:50%;top:54%;width:var(--b);height:calc(var(--b) * 1.34);transform:translate(-50%,-50%) scale(calc(1 + var(--room-enter) * var(--room-enter) * 26));transform-origin:50% 56%;will-change:transform}
+.room-portal__cap{position:absolute;left:34%;right:34%;top:0;height:16%;border-radius:4px 4px 2px 2px;background:linear-gradient(90deg,#0d0a0b,#3b3235 45%,#0d0a0b)}
+.room-portal__neck{position:absolute;left:41%;right:41%;top:15%;height:8%;background:linear-gradient(90deg,#8a7a5a,#f4e6c0 50%,#8a7a5a)}
+.room-portal__glass{position:absolute;left:0;right:0;top:22%;bottom:0;border-radius:9%;overflow:hidden;border:1px solid #ffffff55;background:linear-gradient(135deg,#ffffff30,#ffffff10 40%,#0000002a);box-shadow:inset 0 0 40px #ffffff22,0 30px 70px #0009}
+.room-portal__liquid{position:absolute;inset:14% 6% 6%;border-radius:5%;background:linear-gradient(180deg,var(--portal-1),var(--portal-2) 55%,var(--portal-3))}
+.room-portal__drop{position:absolute;left:50%;top:50%;width:14%;aspect-ratio:.72;transform:translate(-50%,-50%);border-radius:50% 50% 50% 50%/62% 62% 38% 38%;background:radial-gradient(circle at 38% 30%,#fffbe6,var(--portal-1) 60%);box-shadow:0 0 28px #ffffff88}
+.room-portal__shine{position:absolute;left:10%;top:6%;width:9%;height:84%;border-radius:999px;background:linear-gradient(180deg,#fff9,#fff0);filter:blur(1px)}
+.room-portal[data-gl="failed"] .room-portal__bottle{display:block}
+
+/* Three.js canvas and motion controls (clickable only while the entrance is live). */
+.room-portal[data-live="0"] .room-3d,.room-portal[data-live="0"] .room-3d-controls{pointer-events:none}
+.room-3d{position:absolute;inset:0;pointer-events:auto;touch-action:pan-y;cursor:grab}
+.room-3d.is-dragging{cursor:grabbing}
+.room-3d__canvas{display:block;width:100%;height:100%}
+.room-3d-controls{position:absolute;z-index:2;left:max(1.6rem,env(safe-area-inset-left,0px));top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:stretch;gap:.45rem;width:7.4rem;padding:.7rem;border:1px solid #ffffff2e;border-radius:14px;background:#0c0806a6;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#f7ecd6;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;pointer-events:auto}
+.room-3d-controls button{font:inherit;color:inherit;letter-spacing:inherit;text-transform:inherit;padding:.45rem .5rem;border:1px solid #ffffff33;border-radius:8px;background:transparent;cursor:pointer;transition:background .2s,color .2s}
+.room-3d-controls button:hover,.room-3d-controls button:focus-visible{background:#ffffff1f;outline:none}
+.room-3d-controls button[aria-pressed="true"]{background:#f0dfba;color:#24160c;border-color:#f0dfba}
+.room-3d-controls label{display:flex;flex-direction:column;gap:.35rem;padding:.2rem 0}
+.room-3d-controls input[type=range]{width:100%;accent-color:#f0dfba}
+@media(max-width:760px){.room-3d-controls{top:auto;bottom:max(8.4rem,env(safe-area-inset-bottom,0px));left:1rem;transform:none;flex-direction:row;flex-wrap:wrap;width:auto;max-width:calc(100% - 2rem)}.room-3d-controls label{flex-direction:row;align-items:center}.room-3d-controls input[type=range]{width:4.5rem}}
+@media(prefers-reduced-motion:reduce){.room-portal{display:none}}

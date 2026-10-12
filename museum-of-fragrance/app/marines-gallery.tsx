@@ -1,5 +1,7 @@
 "use client";
 
+
+import {RoomPortal} from "./room-portal";
 import {useEffect,useRef} from "react";
 import {MarineWater} from "./marine-water";
 import {responseStrength,useRoomResponse,driftPoint} from "./room-response";
@@ -55,5 +57,6 @@ export function MarinesGallery({active,paused}:{active:boolean;paused:boolean}){
       <p className="marines-description">An extraordinary collection of aquatic fragrances.<br/>For those who belong to the sea.</p>
     </div>
     <div className="marine-footer"><span>Sea salt. Mineral air. Endless blue.</span><span>01 / The Marines</span></div>
+  <RoomPortal room="marines" active={active} paused={paused}/>
   </section>;
 }

@@ -1,5 +1,7 @@
 "use client";
 
+
+import {RoomPortal} from "./room-portal";
 import {useRoomResponse,driftPoint,responseStrength} from "./room-response";
 
 import {LivingMaterials} from "./living-materials";
@@ -99,5 +101,6 @@ export function CedarGallery({active,paused}:{active:boolean;paused:boolean}){
       <p className="cedar-signature">Modern fragrances. Effortless presence.</p>
     </div>
     <div className="cedar-footer"><span>Freshness, impeccably tailored.</span><span>04 / Cedar Room</span></div>
+  <RoomPortal room="cedar" active={active} paused={paused}/>
   </section>;
 }

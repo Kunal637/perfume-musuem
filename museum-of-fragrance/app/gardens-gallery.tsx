@@ -1,5 +1,7 @@
 "use client";
 
+
+import {RoomPortal} from "./room-portal";
 import {useRoomResponse,driftPoint} from "./room-response";
 
 import {LivingMaterials} from "./living-materials";
@@ -87,5 +89,6 @@ export function GardensGallery({active,paused}:{active:boolean;paused:boolean}){
       <p>Leafy greens. Luminous white florals.<br/>Unisex fragrances in full bloom.</p>
     </div>
     <div className="garden-footer"><span>The art of growing wild.</span><span>02 / The Gardens</span></div>
+  <RoomPortal room="gardens" active={active} paused={paused}/>
   </section>;
 }
