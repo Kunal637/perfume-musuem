@@ -68,6 +68,15 @@ export function AmberGallery({active,paused}:{active:boolean;paused:boolean}){
       <div className="amber-lightwash"/>
       <div className="amber-shade"/><canvas ref={air} className="amber-atmosphere"/>
     </div>
+    <div className="amber-portal" aria-hidden="true">
+      <div className="amber-portal__veil"/>
+      <div className="amber-portal__bottle">
+        <i className="amber-portal__cap"/><i className="amber-portal__neck"/>
+        <div className="amber-portal__glass">
+          <i className="amber-portal__liquid"/><i className="amber-portal__drop"/><i className="amber-portal__shine"/>
+        </div>
+      </div>
+    </div>
     <div className="amber-copy">
       <p className="amber-eyebrow">Gallery 05 <span/> Amber · Warmth</p>
       <h2 id="amber-title" tabIndex={-1}><span>The</span> Amber<br/>Lounge</h2>

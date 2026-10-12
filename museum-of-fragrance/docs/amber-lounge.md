@@ -58,3 +58,13 @@ This confirms an audio signal, not subjective listening on physical hardware.
 The temporary responsive preview component was removed before the final build.
 Physical-device frame rate, system reduced-motion simulation and subjective
 instrument timbre remain hardware QA tasks.
+
+## Bottle entrance (scroll-scrubbed)
+
+Entering the Amber Lounge now opens with a push-in through an amber flacon, in the spirit of the
+entrance walkthrough: the camera dives toward the droplet, the glass scales past the viewport, an
+iris veil opens and the room photograph de-blurs and brightens. It is driven only by the existing
+`--room-progress` variable (first ~11% of the room's runway, mapped to `--amber-enter`), so it
+scrubs forward and backward with native scroll. No video file, no scroll interception, no new
+dependency. Reduced motion hides the portal and leaves the room unfiltered.
+Code: `.amber-portal` in `amber-gallery.tsx`, styles at the end of `amber.css`.
