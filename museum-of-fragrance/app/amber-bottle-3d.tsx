@@ -63,8 +63,8 @@ export function AmberBottle3D({active,paused,onReady}:{active:boolean;paused:boo
         const envTexture=pmrem.fromScene(new RoomEnvironment(),.04).texture;
         scene.environment=envTexture;
 
-        const camera=new THREE.PerspectiveCamera(32,1,.05,40);
-        camera.position.set(0,.1,6.4);
+        const camera=new THREE.PerspectiveCamera(30,1,.05,60);
+        camera.position.set(0,.2,8.8);
 
         const group=new THREE.Group();scene.add(group);
 
@@ -77,8 +77,12 @@ export function AmberBottle3D({active,paused,onReady}:{active:boolean;paused:boo
         const body=new THREE.Mesh(new RoundedBoxGeometry(1.7,2.1,.95,5,.14),glassMat);
         body.position.y=-.15;group.add(body);
 
+        const liquidCanvas=document.createElement("canvas");liquidCanvas.width=4;liquidCanvas.height=256;
+        const lq=liquidCanvas.getContext("2d");
+        if(lq){const g=lq.createLinearGradient(0,0,0,256);g.addColorStop(0,"#f0b04a");g.addColorStop(.45,"#c97a1f");g.addColorStop(1,"#5e2c0a");lq.fillStyle=g;lq.fillRect(0,0,4,256);}
+        const liquidTexture=new THREE.CanvasTexture(liquidCanvas);liquidTexture.colorSpace=THREE.SRGBColorSpace;
         const liquidMat=new THREE.MeshPhysicalMaterial({
-          color:0xd8861f,roughness:.35,metalness:0,emissive:0xff9d2e,emissiveIntensity:.5,
+          color:0xffffff,map:liquidTexture,roughness:.4,metalness:0,emissive:0xffffff,emissiveMap:liquidTexture,emissiveIntensity:.32,
           side:THREE.DoubleSide,
         });
         const liquid=new THREE.Mesh(new RoundedBoxGeometry(1.5,1.55,.75,4,.1),liquidMat);
@@ -88,7 +92,7 @@ export function AmberBottle3D({active,paused,onReady}:{active:boolean;paused:boo
         const profile:InstanceType<typeof THREE.Vector2>[]=[];
         for(let i=0;i<=28;i++){const t=i/28*Math.PI;profile.push(new THREE.Vector2(Math.sin(t)*Math.sin(t/2)*.28,Math.cos(t)*.34));}
         const dropMat=new THREE.MeshPhysicalMaterial({
-          color:0xffe08a,emissive:0xffc24d,emissiveIntensity:1.1,roughness:.12,clearcoat:1,envMapIntensity:1.8,
+          color:0xf2b84a,emissive:0xff9f2a,emissiveIntensity:.9,roughness:.18,clearcoat:1,envMapIntensity:1.2,transparent:true,
         });
         const drop=new THREE.Mesh(new THREE.LatheGeometry(profile,40),dropMat);
         drop.position.set(0,-.2,0);drop.scale.setScalar(.55);group.add(drop);
@@ -103,19 +107,20 @@ export function AmberBottle3D({active,paused,onReady}:{active:boolean;paused:boo
         cap.position.y=1.62;group.add(cap);
 
         // Gold label printed on the front of the glass.
-        const labelCanvas=document.createElement("canvas");labelCanvas.width=512;labelCanvas.height=256;
+        const labelCanvas=document.createElement("canvas");labelCanvas.width=1024;labelCanvas.height=512;
         const lc=labelCanvas.getContext("2d");
         if(lc){
-          lc.clearRect(0,0,512,256);lc.strokeStyle="#e8c27a";lc.lineWidth=3;lc.strokeRect(14,14,484,228);
-          lc.fillStyle="#f3d79a";lc.textAlign="center";
-          lc.font="italic 34px Georgia, serif";lc.fillText("Museum of Fragrance",256,98);
-          lc.font="600 58px Georgia, serif";lc.fillText("AMBER",256,165);
-          lc.font="22px Georgia, serif";lc.fillText("N° 05  ·  LOUNGE",256,212);
+          lc.clearRect(0,0,1024,512);lc.strokeStyle="#f1d28f";lc.lineWidth=4;lc.strokeRect(28,28,968,456);
+          lc.lineWidth=1.5;lc.strokeRect(44,44,936,424);
+          lc.fillStyle="#fbe7b8";lc.textAlign="center";
+          lc.font="italic 54px Georgia, serif";lc.fillText("Museum of Fragrance",512,170);
+          lc.font="600 120px Georgia, serif";lc.fillText("AMBER",512,300);
+          lc.font="34px Georgia, serif";lc.fillText("N° 05  ·  THE LOUNGE",512,400);
         }
         const labelTexture=new THREE.CanvasTexture(labelCanvas);labelTexture.colorSpace=THREE.SRGBColorSpace;
         const label=new THREE.Mesh(
           new THREE.PlaneGeometry(.95,.475),
-          new THREE.MeshBasicMaterial({map:labelTexture,transparent:true,depthWrite:false,opacity:.92}),
+          new THREE.MeshBasicMaterial({map:labelTexture,transparent:true,depthWrite:false,toneMapped:false}),
         );
         label.position.set(0,-.1,.5);group.add(label);
 
@@ -132,10 +137,14 @@ export function AmberBottle3D({active,paused,onReady}:{active:boolean;paused:boo
         const halo=new THREE.Sprite(new THREE.SpriteMaterial({map:haloTexture,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,opacity:.55}));
         halo.position.set(0,0,-1.4);halo.scale.setScalar(7);scene.add(halo);
 
+        // Warm pool of light under the bottle to ground it.
+        const floor=new THREE.Sprite(new THREE.SpriteMaterial({map:haloTexture,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,opacity:.4}));
+        floor.position.set(0,-1.3,0);floor.scale.set(5.2,1.2,1);scene.add(floor);
+
         // Drifting amber dust.
         const count=mobile?90:220;
         const positions=new Float32Array(count*3),speeds=new Float32Array(count);
-        for(let i=0;i<count;i++){positions[i*3]=(Math.random()-.5)*7;positions[i*3+1]=(Math.random()-.5)*6;positions[i*3+2]=(Math.random()-.5)*5;speeds[i]=.04+Math.random()*.12;}
+        for(let i=0;i<count;i++){positions[i*3]=(Math.random()-.5)*10;positions[i*3+1]=(Math.random()-.5)*7;positions[i*3+2]=(Math.random()-.5)*6;speeds[i]=.04+Math.random()*.12;}
         const dustGeometry=new THREE.BufferGeometry();
         dustGeometry.setAttribute("position",new THREE.BufferAttribute(positions,3));
         const dust=new THREE.Points(dustGeometry,new THREE.PointsMaterial({color:0xffd28a,size:.035,sizeAttenuation:true,transparent:true,opacity:.75,depthWrite:false,blending:THREE.AdditiveBlending}));
@@ -191,16 +200,17 @@ export function AmberBottle3D({active,paused,onReady}:{active:boolean;paused:boo
           group.position.y=Math.sin(t*.9)*.05;
           drop.rotation.y+=dt*.8;drop.position.y=-.2+Math.sin(t*1.3)*.05;
           // Scroll dive: from a full portrait to inside the liquid, widening the lens as we go in.
-          camera.position.z=6.4-eased*6.25;camera.position.y=.1-eased*.2;
-          const fov=32+eased*26;if(Math.abs(camera.fov-fov)>.05){camera.fov=fov;camera.updateProjectionMatrix();}
-          camera.lookAt(0,-.2,0);
+          camera.position.z=8.8-eased*8.65;camera.position.y=.2-eased*.4;
+          const fov=30+eased*26;if(Math.abs(camera.fov-fov)>.05){camera.fov=fov;camera.updateProjectionMatrix();}
+          camera.lookAt(0,.2-eased*.4,0);
+          dropMat.opacity=1-clamp((eased-.5)*2.2);
           const g=c.glow;
           inner.intensity=(5+Math.sin(t*2.1)*.6)*g*(1+eased*2.2);
-          liquidMat.emissiveIntensity=.5*g+eased*.7;
+          liquidMat.emissiveIntensity=.32*g+eased*.35;
           dropMat.emissiveIntensity=1.1*g;
           (halo.material as InstanceType<typeof THREE.SpriteMaterial>).opacity=.55*clamp(g/1.2,.2,1.3)*(1-eased*.6);
           const arr=dustGeometry.attributes.position.array as Float32Array;
-          for(let i=0;i<count;i++){let y=arr[i*3+1]+dt*speeds[i];if(y>3)y=-3;arr[i*3+1]=y;arr[i*3]+=Math.sin(t*.4+i)*dt*.02;}
+          for(let i=0;i<count;i++){let y=arr[i*3+1]+dt*speeds[i];if(y>3.5)y=-3.5;arr[i*3+1]=y;arr[i*3]+=Math.sin(t*.4+i)*dt*.02;}
           dustGeometry.attributes.position.needsUpdate=true;
           dust.rotation.y=eased*.6;
           renderer.render(scene,camera);
@@ -220,7 +230,7 @@ export function AmberBottle3D({active,paused,onReady}:{active:boolean;paused:boo
             const m=mesh.material as InstanceType<typeof THREE.Material>|InstanceType<typeof THREE.Material>[]|undefined;
             (Array.isArray(m)?m:m?[m]:[]).forEach(mat=>mat.dispose());
           });
-          labelTexture.dispose();haloTexture.dispose();envTexture.dispose();pmrem.dispose();renderer.dispose();
+          labelTexture.dispose();liquidTexture.dispose();haloTexture.dispose();envTexture.dispose();pmrem.dispose();renderer.dispose();
           renderer.domElement.remove();
         };
       }catch{

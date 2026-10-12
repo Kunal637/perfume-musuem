@@ -1,4 +1,4 @@
-.museum-journey.gallery-journey { height: 60190svh; }
+.museum-journey.gallery-journey { height: 8190svh; }
 .gallery-journey .museum-viewport { perspective: 1300px; }
 .gallery-journey .lobby-world { transition: transform .95s cubic-bezier(.2,.75,.2,1),opacity .8s; transform-origin: 50% 55%; }
 .gallery-journey.showing-gallery .lobby-world { transform: translate3d(-16vw,0,300px) rotateY(16deg); opacity: 0; }

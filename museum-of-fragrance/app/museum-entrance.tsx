@@ -35,16 +35,13 @@ const destinations: {id:Destination;label:string;number:string}[] = [
 ];
 const galleries = destinations.filter(item=>item.number!=="00"&&item.number!=="A");
 const GALLERY_COUNT = galleries.length;
-const GALLERY_SCROLL_VIEWPORTS = 60; // Ten times the previous six-viewport walkthrough per room.
-const GALLERY_WAYPOINTS = 24;
+const GALLERY_SCROLL_VIEWPORTS = 8; // Screens of scroll per room (was 60).
+const GALLERY_WAYPOINTS = 8; // Beats per room (was 24).
 const galleryBeatLabels = [
-  "Arrive", "Orient", "Look closer", "Follow", "Notice", "Explore",
-  "Discover", "Trace", "Pause", "Linger", "Reflect", "Depart",
-  "Turn inward", "Look beyond", "Draw near", "Follow the light",
-  "Find a detail", "Stay awhile", "Explore deeper", "Take it in",
-  "At the threshold", "Before you go", "One last look", "Carry it with you",
+  "Arrive", "Orient", "Look closer", "Notice",
+  "Linger", "Look beyond", "Before you go", "Carry it with you",
 ];
-const galleryFrames:Record<string,{title:string;detail:string}[]> = {
+const fullGalleryFrames:Record<string,{title:string;detail:string}[]> = {
   marines:[
     {title:"The blue threshold",detail:"Enter among salt air and open water."},
     {title:"The sea wall",detail:"Let the stone arch frame the Mediterranean."},
@@ -318,6 +315,9 @@ const galleryStories:Record<string,{exhibit:string;title:string;detail:string}> 
   riviera:{exhibit:"The terrace pool",title:"A pause beside the water",detail:"The garden arcade opens onto a bright strip of Mediterranean blue. Notice the shift from cool shade to sunlit water, and the small ripples travelling across the pool."},
   tobacco:{exhibit:"The fireside chair",title:"A room made for lingering",detail:"Worn leather and dark wood hold the warmth of a private club. Watch the lamp glow through the haze, then take in the small details gathered around the fireside seat."},
 };
+// The rooms were authored with 24 beats each; the shorter walk keeps 8 evenly spaced ones, always including the first and last.
+const pickBeats=<T,>(items:T[],count:number)=>items.length<=count?items:Array.from({length:count},(_,i)=>items[Math.round(i*(items.length-1)/(count-1))]);
+const galleryFrames:Record<string,{title:string;detail:string}[]>=Object.fromEntries(Object.entries(fullGalleryFrames).map(([room,frames])=>[room,pickBeats(frames,GALLERY_WAYPOINTS)]));
 const galleryCameraPaths:Record<string,[number,number,number][]> = {
   marines:[[0,0,1.04],[-3,0,1.095],[3,-.8,1.13],[0,0,1.055]],
   gardens:[[0,0,1.04],[3,.8,1.095],[5,-.8,1.13],[1,0,1.055]],
