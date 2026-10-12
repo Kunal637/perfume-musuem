@@ -1,10 +1,11 @@
-# The Souk: scroll-scrubbed film
+# Film galleries: the Souk and the Sultans
 
-The Souk gallery is a pre-rendered frame sequence (96 WebP frames, ~4.4 MB, `public/souk-frames/001.webp` to `096.webp`)
+Both galleries share `app/film-gallery.tsx` and `app/film-gallery.css`; `souk-gallery.tsx` and `sultans-gallery.tsx` only supply a spec (frame folder, frame count, text, and the scroll ranges of the four text moments). The Souk is a pre-rendered frame sequence (96 WebP frames, ~4.4 MB, `public/souk-frames/001.webp` to `096.webp`)
 drawn to a canvas and scrubbed by scroll. It runs from a bottle on stone, through its emblem and the amber liquid,
 into the lantern-lit market and out to the desert arch.
 
-- Component: `app/souk-gallery.tsx`; styles at the end of `app/souk.css`.
+- The Sultans film is 120 frames in `public/sultans-frames/` (ornate bottle and tea glass, crimson silk, palace hall, candlelit lounge).
+- To add another film gallery: put numbered frames (`001.webp`...) in `public/<name>-frames/`, create a small wrapper with a `FilmSpec`, and keep the gallery class's position/transition rule in its own CSS file.
 - Progress comes from `--room-progress` (set by `museum-entrance.tsx` across the room's 8-screen runway), eased with a light lerp.
 - Frames load coarse-to-fine (every 8th, then 4th, 2nd, rest) with six parallel requests, and are cached at module level.
 - Four text moments (title, "A world within.", the note list, "Step into the market.") fade in and out at fixed fractions of progress.
