@@ -44,3 +44,18 @@
 .amber-portal__shine{position:absolute;left:10%;top:6%;width:9%;height:84%;border-radius:999px;background:linear-gradient(180deg,#fff9,#fff0);filter:blur(1px)}
 .amber-gallery .amber-photograph{filter:blur(calc((1 - var(--amber-enter)) * 9px)) brightness(calc(.55 + var(--amber-enter) * .45))}
 @media(prefers-reduced-motion:reduce){.amber-portal{display:none}.amber-gallery .amber-photograph{filter:none}}
+
+/* Three.js bottle: replaces the CSS flacon when WebGL is ready; controls stay clickable only while the portal is live. */
+.amber-portal[data-gl="ready"] .amber-portal__bottle{display:none}
+.amber-portal[data-live="0"] .amber-3d,.amber-portal[data-live="0"] .amber-3d-controls{pointer-events:none}
+.amber-3d{position:absolute;inset:0;pointer-events:auto;touch-action:pan-y;cursor:grab}
+.amber-3d.is-dragging{cursor:grabbing}
+.amber-3d__canvas{display:block;width:100%;height:100%}
+.amber-3d-controls{position:absolute;z-index:2;left:50%;bottom:max(1.4rem,env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.5rem .6rem;max-width:calc(100% - 2rem);padding:.55rem .8rem;border:1px solid #ffe5b33d;border-radius:999px;background:#1a0d0799;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#fff1d5;font-size:.75rem;letter-spacing:.06em;pointer-events:auto}
+.amber-3d-controls button{font:inherit;color:inherit;letter-spacing:inherit;padding:.3rem .75rem;border:1px solid #ffe5b345;border-radius:999px;background:transparent;cursor:pointer;transition:background .2s,color .2s}
+.amber-3d-controls button:hover,.amber-3d-controls button:focus-visible{background:#ffe5b324;outline:none}
+.amber-3d-controls button[aria-pressed="true"]{background:#ffd99a;color:#2a150c;border-color:#ffd99a}
+.amber-3d-controls label{display:flex;align-items:center;gap:.5rem}
+.amber-3d-controls input[type=range]{width:5.5rem;accent-color:#ffd99a}
+.amber-3d-hint{opacity:.7;flex-basis:100%;text-align:center;font-size:.68rem}
+@media(max-width:760px){.amber-3d-controls{border-radius:18px;bottom:max(5.2rem,env(safe-area-inset-bottom,0px))}}
