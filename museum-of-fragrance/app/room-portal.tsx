@@ -22,8 +22,6 @@ type RoomLook={
 };
 
 const LOOKS:Record<string,RoomLook>={
-  gardens:{title:"GARDENS",subtitle:"N° 02  ·  GREEN & BLOOM",liquid:["#cbe596","#74a64c","#2a5428"],light:0xc9f0a0,dust:0xf4ffd8,cap:0x111d0f,metal:0xd8c47a,ink:"#f3f8da",veil:"#07130a",note:{shape:"petal",color:0xfdf8ec,accent:0xf3e3c3,size:.75}},
-  cedar:{title:"CEDAR",subtitle:"N° 04  ·  THE CEDAR ROOM",liquid:["#b6cc94","#62814c","#23351d"],light:0xd8e8b2,dust:0xeaf3c8,cap:0x10170d,metal:0xc9b27a,ink:"#eef3d6",veil:"#091109",note:{shape:"shard",color:0xb98a55,accent:0x7a5230,size:.8}},
   amber:{title:"AMBER",subtitle:"N° 05  ·  THE LOUNGE",liquid:["#f0b04a","#c97a1f","#5e2c0a"],light:0xffb24a,dust:0xffd28a,cap:0x0e0b0c,metal:0xd9a441,ink:"#fbe7b8",veil:"#1a0d07",note:{shape:"crystal",color:0xf2a93a,accent:0xffd37a,size:.38}},
   pastry:{title:"PASTRY",subtitle:"N° 07  ·  SWEET NOTES",liquid:["#ffdce6","#e69ab2","#8a3a52"],light:0xffc6d6,dust:0xffe8ef,cap:0x1a0d12,metal:0xe3c08a,ink:"#fff0f3",veil:"#1a0c12",note:{shape:"crystal",color:0xf6dfe4,accent:0xf7b6c8,size:.32}},
   liquors:{title:"LIQUORS",subtitle:"N° 08  ·  CRYSTAL & CASK",liquid:["#dfb86c","#92601f","#2d1708"],light:0xffbf6a,dust:0xffe0a8,cap:0x0d0907,metal:0xc9a15a,ink:"#fbe9c4",veil:"#100a06",note:{shape:"crystal",color:0xdbe9ee,accent:0xffffff,size:.4}},

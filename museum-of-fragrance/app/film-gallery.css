@@ -11,6 +11,7 @@
 .film-beat--title{bottom:max(16vh,8.5rem);transform:translateY(var(--beat-shift))}
 .film-beat--center{top:50%;transform:translateY(-50%) translateY(var(--beat-shift))}
 .film-beat--end{bottom:max(22vh,10rem);transform:translateY(var(--beat-shift))}
+.film-beat--long h2{font-size:clamp(2.8rem,7.2vw,7.4rem)}
 .film-label{text-shadow:0 1px 14px #000b;display:inline-flex;align-items:center;gap:14px;font:400 .7rem var(--museum-sans);letter-spacing:.45em;color:#e8cf9a;text-transform:uppercase}
 .film-label::before,.film-label::after{content:"";width:46px;height:1px;background:#c9a66b}
 .film-beat h2{margin:1.3rem 0 1rem;font:300 clamp(3.4rem,10vw,9.5rem)/1 var(--museum-display);letter-spacing:.12em;color:#f5ebdd;text-shadow:0 2px 30px #000000b3,0 4px 40px #00000073}

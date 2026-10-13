@@ -127,7 +127,7 @@ export function FilmGallery({spec,active,paused}:{spec:FilmSpec;active:boolean;p
     <div className="film-shade" aria-hidden="true"/>
     <div className="film-grain" aria-hidden="true"/>
     <div className="film-loading" aria-hidden="true"><span>{spec.loading}</span><i/></div>
-    <div className="film-beat film-beat--title" ref={el=>{beatEls.current[0]=el;}}>
+    <div className={`film-beat film-beat--title${spec.heading.length>12?" film-beat--long":""}`} ref={el=>{beatEls.current[0]=el;}}>
       <span className="film-label">{spec.label}</span>
       <h2 id={spec.titleId} tabIndex={-1}>{spec.heading}</h2>
       <p className="film-sub">{spec.sub}</p>
