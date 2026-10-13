@@ -22,6 +22,7 @@ export type FilmSpec={
   caps:string;             // third moment (note list)
   lineEnd:string;          // closing moment
   loading:string;          // "Entering the souk"
+  preload?:boolean;        // start loading frames shortly after page load (use for the first gallery)
   ranges:readonly [readonly [number,number],readonly [number,number],readonly [number,number],readonly [number,number]];
 };
 
@@ -66,6 +67,14 @@ export function FilmGallery({spec,active,paused}:{spec:FilmSpec;active:boolean;p
   const root=useRef<HTMLElement>(null),canvas=useRef<HTMLCanvasElement>(null);
   const beatEls=useRef<(HTMLDivElement|null)[]>([]);
   const pausedRef=useRef(paused);pausedRef.current=paused;
+
+  useEffect(()=>{
+    if(!spec.preload)return;
+    const idle=(window as unknown as {requestIdleCallback?:(cb:()=>void,o?:{timeout:number})=>number}).requestIdleCallback;
+    const run=()=>startLoading(spec,cacheFor(spec));
+    const handle=idle?idle(run,{timeout:3000}):window.setTimeout(run,1500);
+    return()=>{if(!idle)window.clearTimeout(handle);};
+  },[spec]);
 
   useEffect(()=>{
     if(!active)return;

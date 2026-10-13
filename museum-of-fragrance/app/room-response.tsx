@@ -24,8 +24,8 @@ const waypointHotspots:Partial<Record<MuseumDestination,readonly [number,number]
  riviera:[[.34,.72],[.68,.76],[.5,.62],[.78,.68]],
  tobacco:[[.68,.58],[.38,.44],[.52,.28],[.8,.72]],
 };
-const actions:Partial<Record<MuseumDestination,string>>={marines:"Call a sea breeze",gardens:"Stir the garden breeze",cedar:"Send a ripple",amber:"Follow the spotlight",pastry:"A little sugar magic",liquors:"Swirl the crystal",riviera:"Touch the pool",tobacco:"Draw a curl of smoke"};
-const hints:Partial<Record<MuseumDestination,string>>={marines:"A sea breeze stirs the spray",gardens:"Watch the garden catch the light",cedar:"A ripple crosses the terrace pool",amber:"Light moves through the lounge",pastry:"Look for a little sweet surprise",liquors:"Catch a glint along the crystal",riviera:"A ripple crosses the sunlit pool",tobacco:"Watch smoke curl around the ember"};
+const actions:Partial<Record<MuseumDestination,string>>={gardens:"Stir the garden breeze",cedar:"Send a ripple",amber:"Follow the spotlight",pastry:"A little sugar magic",liquors:"Swirl the crystal",riviera:"Touch the pool",tobacco:"Draw a curl of smoke"};
+const hints:Partial<Record<MuseumDestination,string>>={gardens:"Watch the garden catch the light",cedar:"A ripple crosses the terrace pool",amber:"Light moves through the lounge",pastry:"Look for a little sweet surprise",liquors:"Catch a glint along the crystal",riviera:"A ripple crosses the sunlit pool",tobacco:"Watch smoke curl around the ember"};
 
 /** Input moves nearby atmosphere only, never the architectural photograph. */
 export function useRoomResponse(root:RefObject<HTMLElement|null>,room:string,active:boolean,paused:boolean){

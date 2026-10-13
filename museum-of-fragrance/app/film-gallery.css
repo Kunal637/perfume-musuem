@@ -18,6 +18,6 @@
 .film-sub{font-size:clamp(1.1rem,2.2vw,1.75rem);opacity:.92}
 .film-line{font-size:clamp(2.6rem,7vw,6.5rem);line-height:1.05}
 .film-line--end{font-size:clamp(2.4rem,6vw,5.5rem)}
-.film-caps{margin:0;font:400 clamp(.7rem,1.3vw,.95rem) var(--museum-sans);letter-spacing:.5em;text-transform:uppercase;color:#f5ebdd;text-shadow:0 2px 24px #000a}
+.film-caps{margin:0;font:400 clamp(.7rem,1.3vw,.95rem) var(--museum-sans);letter-spacing:.5em;text-transform:uppercase;color:#f5ebdd;font-weight:500;text-shadow:0 0 6px #000c,0 2px 24px #000b}
 @media(max-width:760px){.film-label::before,.film-label::after{width:22px}.film-caps{letter-spacing:.3em;line-height:2}.film-beat--title{bottom:max(16vh,9.5rem)}.film-beat--end{bottom:max(22vh,11rem)}}
 @media(prefers-reduced-motion:reduce){.film-gallery{transition:opacity .15s;transform:none!important}.film-grain,.film-loading i{animation:none}}

@@ -1,9 +1,10 @@
-# Film galleries: the Souk and the Sultans
+# Film galleries: the Marines, the Souk and the Sultans
 
 Both galleries share `app/film-gallery.tsx` and `app/film-gallery.css`; `souk-gallery.tsx` and `sultans-gallery.tsx` only supply a spec (frame folder, frame count, text, and the scroll ranges of the four text moments). The Souk is a pre-rendered frame sequence (96 WebP frames, ~4.4 MB, `public/souk-frames/001.webp` to `096.webp`)
 drawn to a canvas and scrubbed by scroll. It runs from a bottle on stone, through its emblem and the amber liquid,
 into the lantern-lit market and out to the desert arch.
 
+- The Marines film is 298 frames (recompressed from 1080p to 1600x900, ~12 MB) in `public/marines-frames/`: a bottle with a ship's-wheel cap, the ship emblem, an underwater vortex, a stormy sea, the deck and the captain's cabin. It is the first gallery, so its spec sets `preload: true` and frames start loading shortly after page load.
 - The Sultans film is 120 frames in `public/sultans-frames/` (ornate bottle and tea glass, crimson silk, palace hall, candlelit lounge).
 - To add another film gallery: put numbered frames (`001.webp`...) in `public/<name>-frames/`, create a small wrapper with a `FilmSpec`, and keep the gallery class's position/transition rule in its own CSS file.
 - Progress comes from `--room-progress` (set by `museum-entrance.tsx` across the room's 8-screen runway), eased with a light lerp.
